@@ -87,13 +87,19 @@
                 
                 <!-- Input Section -->
                 <div class="flex flex-col p-6 bg-slate-50/50">
-                    <label for="userInput" class="text-xs font-bold uppercase text-slate-400 mb-3 tracking-wider flex justify-between items-center">
-                        <span>Original Text</span>
-                        <i class="fa-regular fa-keyboard"></i>
-                    </label>
+                    <div class="flex justify-between items-center mb-3">
+                        <label for="userInput" class="text-xs font-bold uppercase text-slate-400 tracking-wider flex items-center gap-2">
+                            <span>Original Text</span>
+                            <i class="fa-regular fa-keyboard"></i>
+                        </label>
+                        <button onclick="pasteFromClipboard()" class="text-slate-400 hover:text-indigo-600 hover:bg-slate-200 p-1.5 rounded transition text-sm" title="Paste from Clipboard">
+                            <i class="fa-regular fa-paste"></i>
+                        </button>
+                    </div>
+                    
                     <textarea id="userInput"
                               placeholder="Type or paste text here..."
-                              class="flex-grow w-full bg-white border border-slate-200 rounded-lg p-4 text-lg leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none text-slate-700 placeholder-slate-300"
+                              class="flex-grow w-full bg-white border border-slate-200 rounded-lg p-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none text-slate-700 placeholder-slate-300"
                               spellcheck="false"></textarea>
                     <div class="flex justify-between items-center mt-3 text-xs text-slate-400">
                         <span id="charCount">0 chars</span>
@@ -119,7 +125,7 @@
 
                     <!-- The Output Div -->
                     <div id="mirrorOutput"
-                         class="flex-grow w-full bg-white border border-indigo-100 rounded-lg p-4 text-lg leading-relaxed overflow-y-auto whitespace-pre-wrap break-words text-indigo-900 font-medium relative">
+                         class="flex-grow w-full bg-white border border-indigo-100 rounded-lg p-4 text-sm leading-relaxed overflow-y-auto whitespace-pre-wrap break-words text-indigo-900 font-medium relative">
                          <span class="text-slate-300 italic">Result will appear here...</span>
                     </div>
 
@@ -301,7 +307,7 @@
             return data.candidates[0].content.parts[0].text;
         }
 
-        // --- Prompt Logic (Matched to Extension README descriptions) ---
+        // --- Prompt Logic ---
 		function getPrompt(mode, text) {
 			switch (mode) {
 				case 'improve':
@@ -388,6 +394,20 @@
             input.value = '';
             input.dispatchEvent(new Event('input')); 
             input.focus();
+        }
+
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                input.value = text;
+                // Trigger input event to update char count
+                input.dispatchEvent(new Event('input'));
+                input.focus();
+                showToast("Pasted from clipboard!");
+            } catch (err) {
+                console.error('Failed to read clipboard contents: ', err);
+                showToast("Failed to paste. Check permissions.", true);
+            }
         }
 
         function copyToClipboard() {
