@@ -8,27 +8,69 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        textarea::-webkit-scrollbar, div::-webkit-scrollbar { width: 8px; }
-        textarea::-webkit-scrollbar-track, div::-webkit-scrollbar-track { background: #f1f1f1; }
-        textarea::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        textarea::-webkit-scrollbar-thumb:hover, div::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
+        textarea::-webkit-scrollbar, div::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        textarea::-webkit-scrollbar-track, div::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        textarea::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+            textarea::-webkit-scrollbar-thumb:hover, div::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+
         .typing-indicator span {
             animation: blink 1.4s infinite both;
-            height: 10px; width: 10px; background: #4f46e5; border-radius: 50%; display: inline-block; margin: 0 2px;
+            height: 10px;
+            width: 10px;
+            background: #4f46e5;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
         }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes blink { 0% { opacity: 0.1; } 20% { opacity: 1; } 100% { opacity: 0.1; } }
 
-        .modal { transition: opacity 0.25s ease; }
-        body.modal-active { overflow-x: hidden; overflow-y: hidden !important; }
+            .typing-indicator span:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .typing-indicator span:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+
+        @keyframes blink {
+            0% {
+                opacity: 0.1;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.1;
+            }
+        }
+
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: hidden !important;
+        }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex flex-col items-center p-4 font-sans text-slate-800">
 
     <main class="w-full max-w-6xl flex flex-col gap-4 relative">
-        
+
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 relative">
             <button onclick="toggleModal()" class="absolute top-4 right-4 text-slate-400 hover:text-indigo-600 transition p-2">
                 <i class="fa-solid fa-gear text-lg"></i>
@@ -70,7 +112,7 @@
 
         <div class="bg-white w-full rounded-2xl shadow-xl overflow-hidden border border-slate-200 flex-grow">
             <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 min-h-[60vh]">
-                
+
                 <div class="flex flex-col p-6 bg-slate-50/50">
                     <div class="flex justify-between items-center mb-3">
                         <label for="userInput" class="text-xs font-bold uppercase text-slate-400 tracking-wider flex items-center gap-2">
@@ -107,7 +149,7 @@
                     </div>
                     <div id="mirrorOutput"
                          class="flex-grow w-full bg-white border border-indigo-100 rounded-lg p-4 text-sm leading-relaxed overflow-y-auto whitespace-pre-wrap break-words text-indigo-900 font-medium relative">
-                         <span class="text-slate-300 italic">Result will appear here...</span>
+                        <span class="text-slate-300 italic">Result will appear here...</span>
                     </div>
                     <div id="loadingOverlay" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center hidden">
                         <div class="typing-indicator">
@@ -123,7 +165,7 @@
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="toggleModal()"></div>
-        
+
         <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-2xl z-50 overflow-y-auto">
             <div class="modal-content py-4 text-left px-6">
                 <div class="flex justify-between items-center pb-3">
@@ -152,8 +194,18 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="apiKeyInput">
                             Gemini API Key
                         </label>
-                        <input class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500" 
-                               id="apiKeyInput" type="password" placeholder="Paste your Gemini API key here...">
+
+                        <div class="relative">
+                            <input id="apiKeyInput" type="password"
+                                   class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-10 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"
+                                   placeholder="Paste your Gemini API key here...">
+
+                            <button type="button" id="toggleGeminiKey"
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+
                         <p class="text-xs text-gray-500 mt-2">Key is saved in your browser's LocalStorage.</p>
                         <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-indigo-500 hover:underline">Get a Gemini Key</a>
                     </div>
@@ -163,8 +215,18 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="hfApiKeyInput">
                             HuggingFace API Key
                         </label>
-                        <input class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500" 
-                               id="hfApiKeyInput" type="password" placeholder="Paste your HuggingFace token here...">
+
+                        <div class="relative">
+                            <input id="hfApiKeyInput" type="password"
+                                   class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-10 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"
+                                   placeholder="Paste your HuggingFace token here...">
+
+                            <button type="button" id="toggleHfKey"
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+
                         <p class="text-xs text-gray-500 mt-2">Key is saved in your browser's LocalStorage.</p>
                         <a href="https://huggingface.co/settings/tokens" target="_blank" class="text-xs text-indigo-500 hover:underline">Get a HuggingFace Token</a>
                     </div>
@@ -190,7 +252,7 @@
         const loadingOverlay = document.getElementById('loadingOverlay');
         const modeBadge = document.getElementById('modeBadge');
         const currentProviderLabel = document.getElementById('currentProviderLabel');
-        
+
         const providerSelect = document.getElementById('providerSelect');
         const apiKeySection = document.getElementById('apiKeySection');
         const apiKeyInput = document.getElementById('apiKeyInput');
@@ -198,8 +260,8 @@
         const hfApiKeyInput = document.getElementById('hfApiKeyInput');
 
         let isAiMode = false;
-        
-        window.onload = function() {
+
+        window.onload = function () {
             loadSettings();
         };
 
@@ -230,10 +292,10 @@
             isAiMode = true;
 
             const provider = localStorage.getItem('cs_provider') || 'gemini';
-            
+
             try {
                 let resultText = "";
-                
+
                 if (provider === 'gemini') {
                     resultText = await callGemini(mode, text);
                 } else if (provider === 'huggingface') {
@@ -243,7 +305,7 @@
                 output.textContent = resultText;
                 modeBadge.classList.remove('hidden');
                 modeBadge.textContent = `AI: ${mode.charAt(0).toUpperCase() + mode.slice(1)}`;
-                
+
             } catch (error) {
                 console.error(error);
                 output.innerHTML = `<span class="text-red-500">Error: ${error.message}</span>`;
@@ -340,7 +402,7 @@ Return only the optimized prompt as plain text.`;
             providerSelect.value = provider;
             apiKeyInput.value = geminiKey;
             hfApiKeyInput.value = hfKey;
-            
+
             toggleApiKeyField(provider);
             updateProviderLabel(provider);
         }
@@ -393,9 +455,27 @@ Return only the optimized prompt as plain text.`;
             body.classList.toggle('modal-active');
         }
 
+        function setupVisibilityToggle(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
+            const icon = button.querySelector('i');
+
+            button.addEventListener('click', () => {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+
+                icon.className = isPassword
+                    ? 'fa-regular fa-eye-slash'
+                    : 'fa-regular fa-eye';
+            });
+        }
+
+        // Init toggles
+        setupVisibilityToggle('apiKeyInput', 'toggleGeminiKey');
+        setupVisibilityToggle('hfApiKeyInput', 'toggleHfKey');
         function clearText() {
             input.value = '';
-            input.dispatchEvent(new Event('input')); 
+            input.dispatchEvent(new Event('input'));
             input.focus();
         }
 
@@ -431,10 +511,10 @@ Return only the optimized prompt as plain text.`;
         function showToast(msg, isError = false) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
-            
+
             toastMsg.textContent = msg;
-            toast.querySelector('i').className = isError 
-                ? "fa-solid fa-circle-exclamation text-red-400" 
+            toast.querySelector('i').className = isError
+                ? "fa-solid fa-circle-exclamation text-red-400"
                 : "fa-solid fa-check text-green-400";
 
             toast.classList.remove('opacity-0');
