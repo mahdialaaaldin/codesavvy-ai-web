@@ -1,254 +1,547 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-slate-50">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeSavvy Web Editor</title>
-    <link rel="icon" href="https://images.icon-icons.com/474/PNG/512/magic-wand_46867.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- iOS Add to Home Screen Web App Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Verbatim">
+
+    <title>Verbatim Studio - Premium AI Text Editor</title>
+    <meta name="description"
+        content="Verbatim Studio is a premium AI-powered text editor designed for quick rewriting, grammar checks, voice dictation, and real-time revisions. Optimized for mobile.">
+    <meta name="keywords"
+        content="AI text editor, grammar check, voice dictation, text rewriting, AI copywriter, professional writer, Verbatim">
+    
+    <!-- Icons and Favicon -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#070a13">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [ 'Inter', 'sans-serif' ],
+                        display: [ 'Outfit', 'sans-serif' ],
+                        mono: [ 'Fira Code', 'monospace' ]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <style>
-        textarea::-webkit-scrollbar, div::-webkit-scrollbar {
-            width: 8px;
+        /* Custom scrollbar styling for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
 
-        textarea::-webkit-scrollbar-track, div::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        ::-webkit-scrollbar-track {
+            background: rgba(148, 163, 184, 0.05);
         }
 
-        textarea::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.3);
         }
 
-            textarea::-webkit-scrollbar-thumb:hover, div::-webkit-scrollbar-thumb:hover {
-                background: #94a3b8;
-            }
-
-        .typing-indicator span {
-            animation: blink 1.4s infinite both;
-            height: 10px;
-            width: 10px;
-            background: #4f46e5;
-            border-radius: 50%;
-            display: inline-block;
-            margin: 0 2px;
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 9999px;
         }
 
-            .typing-indicator span:nth-child(2) {
-                animation-delay: 0.2s;
-            }
-
-            .typing-indicator span:nth-child(3) {
-                animation-delay: 0.4s;
-            }
-
-        @keyframes blink {
-            0% {
-                opacity: 0.1;
-            }
-
-            20% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0.1;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.4);
         }
 
-        .modal {
-            transition: opacity 0.25s ease;
+        /* Hide horizontal scrollbar in Tone Carousel */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
         }
 
-        body.modal-active {
-            overflow-x: hidden;
-            overflow-y: hidden !important;
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Subtle glowing background aura */
+        .glow-aura {
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.02) 50%, transparent 100%);
+        }
+
+        .dark .glow-aura {
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 100%);
+        }
+
+        /* Smooth CSS transitions */
+        .transition-all-300 {
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom diff rendering elements */
+        ins.diff-added {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #065f46;
+            text-decoration: none;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .dark ins.diff-added {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        del.diff-removed {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #991b1b;
+            text-decoration: line-through;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .dark del.diff-removed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        /* Prevent keyboard overflow scroll on mobile */
+        body {
+            overscroll-behavior-y: contain;
         }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex flex-col items-center p-4 font-sans text-slate-800">
 
-    <main class="w-full max-w-6xl flex flex-col gap-4 relative">
+<body
+    class="bg-slate-50 dark:bg-[#070a13] text-slate-800 dark:text-slate-200 min-h-screen flex flex-col items-center p-3 sm:p-6 font-sans relative overflow-x-hidden transition-colors duration-200">
 
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 relative">
-            <button onclick="toggleModal()" class="absolute top-4 right-4 text-slate-400 hover:text-indigo-600 transition p-2">
-                <i class="fa-solid fa-gear text-lg"></i>
-            </button>
+    <!-- Moving Glow Gradients in Background -->
+    <div class="fixed -top-40 -left-40 w-[40rem] h-[40rem] glow-aura rounded-full blur-[120px] pointer-events-none z-0">
+    </div>
+    <div
+        class="fixed -bottom-40 -right-40 w-[40rem] h-[40rem] glow-aura rounded-full blur-[120px] pointer-events-none z-0">
+    </div>
 
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 pr-10">
-                <div class="flex items-center gap-3">
-                    <div class="bg-indigo-600 text-white p-2 rounded-lg">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-xl text-slate-700">CodeSavvy Web</h1>
-                        <p class="text-xs text-slate-400" id="currentProviderLabel">Using: Google Gemini</p>
-                    </div>
+    <main class="w-full max-w-6xl flex flex-col flex-grow gap-4 relative z-10 h-full">
+
+        <!-- Header Bar -->
+        <header
+            class="w-full flex justify-between items-center px-4 py-3 bg-white/90 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200 dark:border-slate-800/80 rounded-2xl shadow-xl transition-colors duration-200">
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-100 dark:bg-slate-800/60 p-2 rounded-xl border border-slate-200 dark:border-slate-800/80 shadow-md">
+                    <img src="favicon.svg" alt="Verbatim Logo" class="w-7 h-7 object-contain">
                 </div>
-
-                <div class="flex flex-wrap gap-2 justify-center" id="aiToolbar">
-                    <button onclick="triggerAI('improve')" class="group relative px-4 py-2 bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium flex items-center gap-2 border border-indigo-100">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Improve
-                    </button>
-                    <button onclick="triggerAI('professional')" class="group relative px-4 py-2 bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium flex items-center gap-2 border border-emerald-100">
-                        <i class="fa-solid fa-briefcase"></i> Professional
-                    </button>
-                    <button onclick="triggerAI('advanced')" class="group relative px-4 py-2 bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium flex items-center gap-2 border border-blue-100">
-                        <i class="fa-solid fa-layer-group"></i> Advanced
-                    </button>
-                    <button onclick="triggerAI('humor')" class="group relative px-4 py-2 bg-amber-50 hover:bg-amber-500 text-amber-700 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium flex items-center gap-2 border border-amber-100">
-                        <i class="fa-regular fa-face-laugh-beam"></i> Humor
-                    </button>
-                    <button onclick="triggerAI('sarcastic')" class="group relative px-4 py-2 bg-rose-50 hover:bg-rose-500 text-rose-700 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium flex items-center gap-2 border border-rose-100">
-                        <i class="fa-solid fa-mask"></i> Sarcastic
-                    </button>
-                    <button onclick="triggerAI('prompt')" class="group relative px-4 py-2 bg-purple-50 hover:bg-purple-600 text-purple-700 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium flex items-center gap-2 border border-purple-100">
-                        <i class="fa-solid fa-robot"></i> Prompt Engineer
-                    </button>
+                <div>
+                    <h1
+                        class="font-bold text-base sm:text-lg text-slate-800 dark:text-slate-100 font-display leading-tight">
+                        Verbatim <span
+                            class="bg-gradient-to-r from-indigo-500 to-fuchsia-500 dark:from-indigo-400 dark:to-fuchsia-400 bg-clip-text text-transparent">Studio</span>
+                    </h1>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5"
+                        id="currentProviderLabel">
+                        <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></span> Initializing...
+                    </p>
                 </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button id="themeToggleBtn" onclick="toggleTheme()"
+                    class="text-slate-500 hover:text-slate-800 bg-slate-100 border border-slate-200 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:bg-slate-800/40 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800 transition p-2.5 rounded-xl"
+                    title="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button onclick="toggleHistory()"
+                    class="text-slate-500 hover:text-slate-800 bg-slate-100 border border-slate-200 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:bg-slate-800/40 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800 transition p-2.5 rounded-xl"
+                    title="Rewrite History">
+                    <i class="fa-solid fa-history"></i>
+                </button>
+                <button onclick="toggleModal()"
+                    class="text-slate-500 hover:text-slate-800 bg-slate-100 border border-slate-200 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:bg-slate-800/40 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800 transition p-2.5 rounded-xl"
+                    title="API Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Rewrite Tones Horizontal Carousel -->
+        <section class="w-full">
+            <div class="flex justify-between items-center mb-2 px-1">
+                <p class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Tone
+                    Presets</p>
+                <span
+                    class="text-[9px] text-indigo-500 dark:text-indigo-400/80 font-medium md:hidden flex items-center gap-1">
+                    Swipe for more <i class="fa-solid fa-arrow-right"></i>
+                </span>
+            </div>
+            <div class="flex overflow-x-auto gap-2 pb-1 -mx-3 px-3 scrollbar-none snap-x snap-mandatory">
+                <button onclick="triggerAI('improve')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Correct & Polish
+                </button>
+                <button onclick="triggerAI('professional')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-briefcase"></i> Professional
+                </button>
+                <button onclick="triggerAI('casual')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 text-sky-600 dark:text-sky-300 hover:bg-sky-600 hover:text-white dark:hover:bg-sky-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-comments"></i> Conversational
+                </button>
+                <button onclick="triggerAI('summarize')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20 text-amber-600 dark:text-amber-300 hover:bg-amber-600 hover:text-white dark:hover:bg-amber-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-compress"></i> Summarize
+                </button>
+                <button onclick="triggerAI('bullet')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-list-ul"></i> Bullet Points
+                </button>
+                <button onclick="triggerAI('expand')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-100 dark:border-cyan-500/20 text-cyan-600 dark:text-cyan-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-expand"></i> Expand
+                </button>
+                <button onclick="triggerAI('sarcastic')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-600 hover:text-white dark:hover:bg-rose-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-mask"></i> Sarcastic
+                </button>
+                <button onclick="triggerAI('prompt')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20 text-orange-600 dark:text-orange-300 hover:bg-orange-600 hover:text-white dark:hover:bg-orange-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid fa-robot"></i> Prompt Architect
+                </button>
+            </div>
+        </section>
+
+        <!-- Mobile Sliding Tab Bar (Only visible on small viewports) -->
+        <div
+            class="md:hidden bg-slate-200/80 dark:bg-slate-950/80 p-1 rounded-xl border border-slate-300/60 dark:border-slate-800/60 max-w-[280px] w-full mx-auto relative mb-1">
+            <div id="tabIndicator"
+                class="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-indigo-600 dark:bg-indigo-600/90 rounded-lg transition-transform duration-300 shadow shadow-indigo-500/20">
+            </div>
+            <div class="relative flex w-full">
+                <button onclick="switchTab('input')" id="tabBtnInput"
+                    class="relative z-10 w-1/2 py-2 text-center text-xs font-bold uppercase tracking-wider text-white transition-colors duration-200">
+                    Input Text
+                </button>
+                <button onclick="switchTab('output')" id="tabBtnOutput"
+                    class="relative z-10 w-1/2 py-2 text-center text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 transition-colors duration-200">
+                    Output
+                </button>
             </div>
         </div>
 
-        <div class="bg-white w-full rounded-2xl shadow-xl overflow-hidden border border-slate-200 flex-grow">
-            <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 min-h-[60vh]">
+        <!-- Main Editor Workspace -->
+        <div class="flex-grow w-full grid grid-cols-1 md:grid-cols-2 gap-4 relative min-h-0">
 
-                <div class="flex flex-col p-6 bg-slate-50/50">
-                    <div class="flex justify-between items-center mb-3">
-                        <label for="userInput" class="text-xs font-bold uppercase text-slate-400 tracking-wider flex items-center gap-2">
-                            <span>Original Text</span>
-                            <i class="fa-regular fa-keyboard"></i>
-                        </label>
-                        <button onclick="pasteFromClipboard()" class="text-slate-400 hover:text-indigo-600 hover:bg-slate-200 p-1.5 rounded transition text-sm" title="Paste from Clipboard">
+            <!-- Input Panel Card -->
+            <div id="inputCard"
+                class="flex flex-col bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg dark:shadow-2xl min-h-[48vh] md:min-h-[56vh] flex-grow transition-colors duration-200">
+                <!-- Input Header -->
+                <div
+                    class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/30 transition-colors duration-200">
+                    <label for="userInput"
+                        class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                        <i class="fa-regular fa-keyboard text-slate-400 dark:text-slate-500"></i> Original Text
+                    </label>
+                    <div>
+                        <button onclick="pasteFromClipboard()"
+                            class="text-indigo-600 dark:text-indigo-400 hover:bg-slate-200 dark:hover:bg-slate-850 p-1.5 rounded transition text-sm"
+                            title="Paste from Clipboard">
                             <i class="fa-regular fa-paste"></i>
                         </button>
                     </div>
-                    <textarea id="userInput"
-                              placeholder="Type or paste text here..."
-                              class="flex-grow w-full bg-white border border-slate-200 rounded-lg p-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none text-slate-700 placeholder-slate-300"
-                              spellcheck="false"></textarea>
-                    <div class="flex justify-between items-center mt-3 text-xs text-slate-400">
-                        <span id="charCount">0 chars</span>
-                        <button onclick="clearText()" class="hover:text-red-500 transition cursor-pointer flex items-center gap-1">
-                            <i class="fa-solid fa-trash-can"></i> Clear
+                </div>
+                <!-- Input Body -->
+                <div class="flex-grow p-4 flex flex-col relative min-h-[220px]">
+                    <textarea id="userInput" placeholder="Type or paste text here..."
+                        class="flex-grow w-full bg-transparent text-slate-800 dark:text-slate-100 text-sm leading-relaxed focus:outline-none transition resize-none placeholder-slate-400 dark:placeholder-slate-600"
+                        spellcheck="false"></textarea>
+                </div>
+                <!-- Input Footer -->
+                <div
+                    class="flex justify-between items-center px-4 py-3 border-t border-slate-200 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-950/30 text-xs text-slate-400 dark:text-slate-500 transition-colors duration-200">
+                    <div class="flex gap-3">
+                        <span id="charCount" class="font-medium text-slate-500 dark:text-slate-400">0 chars</span>
+                        <span class="text-slate-300 dark:text-slate-700">•</span>
+                        <span id="wordCount" class="font-medium text-slate-500 dark:text-slate-400">0 words</span>
+                    </div>
+                    <button onclick="clearText()"
+                        class="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 px-2.5 py-1.5 rounded-lg transition flex items-center gap-1">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Panel Card -->
+            <div id="outputCard"
+                class="hidden md:flex flex-col bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg dark:shadow-2xl min-h-[48vh] md:min-h-[56vh] flex-grow relative transition-colors duration-200">
+                <!-- Output Header -->
+                <div
+                    class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/30 transition-colors duration-200">
+                    <label
+                        class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-indigo-500"></i> Output
+                        <span id="modeBadge"
+                            class="hidden text-[9px] font-bold bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-500/20">AI
+                            Generated</span>
+                    </label>
+                    <div class="flex gap-1.5">
+                        <button id="diffToggleBtn" onclick="toggleDiff()"
+                            class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-800/50 p-2 rounded-xl transition text-xs flex items-center gap-1 border border-slate-200 dark:border-slate-800"
+                            title="Highlight differences between input and output">
+                            <i class="fa-solid fa-code-compare text-xs text-indigo-600 dark:text-indigo-400"></i> Diff
+                        </button>
+                        <button id="speakBtn" onclick="toggleSpeak()"
+                            class="text-slate-500 dark:text-slate-400 hover:text-indigo-650 dark:hover:text-indigo-400 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-2 rounded-xl transition text-xs"
+                            title="Listen Aloud">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                        <button onclick="copyToClipboard()"
+                            class="text-indigo-600 hover:bg-indigo-100 p-1.5 rounded transition text-sm" title="Copy">
+                            <i class="fa-regular fa-copy"></i>
                         </button>
                     </div>
                 </div>
-
-                <div class="flex flex-col p-6 bg-indigo-50/30 relative group">
-                    <div class="flex justify-between items-center mb-3">
-                        <label class="text-xs font-bold uppercase text-indigo-400 tracking-wider flex items-center gap-2">
-                            <span>Output</span>
-                            <span id="modeBadge" class="hidden text-[10px] bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-full border border-indigo-200">AI Generated</span>
-                        </label>
-                        <div class="flex space-x-2">
-                            <button onclick="copyToClipboard()" class="text-indigo-600 hover:bg-indigo-100 p-1.5 rounded transition text-sm" title="Copy">
-                                <i class="fa-regular fa-copy"></i>
-                            </button>
+                <!-- Output Body -->
+                <div class="flex-grow p-4 overflow-y-auto whitespace-pre-wrap break-words text-slate-800 dark:text-slate-200 text-sm leading-relaxed relative min-h-[220px]"
+                    id="mirrorOutput">
+                    <span class="text-slate-400 dark:text-slate-500 italic">Result will appear here...</span>
+                </div>
+                <!-- Output Footer -->
+                <div
+                    class="flex justify-between items-center px-4 py-3 border-t border-slate-200 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-950/30 text-xs text-slate-400 dark:text-slate-500 transition-colors duration-200">
+                    <div class="flex gap-3">
+                        <span id="readingTime" class="font-medium text-slate-500 dark:text-slate-400">0 min read</span>
+                        <span class="text-slate-300 dark:text-slate-700">•</span>
+                        <span id="readabilityComplexity"
+                            class="font-medium text-slate-500 dark:text-slate-400">Easy</span>
+                    </div>
+                    <span
+                        class="text-[9px] text-slate-400 dark:text-slate-600 uppercase tracking-widest font-bold">Processed</span>
+                </div>
+                <!-- Loading Overlay -->
+                <div id="loadingOverlay"
+                    class="absolute inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md z-10 flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-200">
+                    <div class="relative flex items-center justify-center">
+                        <div
+                            class="w-12 h-12 border-4 border-indigo-600/20 dark:border-indigo-500/20 border-t-indigo-600 dark:border-t-indigo-500 rounded-full animate-spin">
                         </div>
+                        <div class="absolute w-8 h-8 border-4 border-fuchsia-600/20 dark:border-fuchsia-500/20 border-b-fuchsia-600 dark:border-b-fuchsia-500 rounded-full animate-spin"
+                            style="animation-direction: reverse;"></div>
                     </div>
-                    <div id="mirrorOutput"
-                         class="flex-grow w-full bg-white border border-indigo-100 rounded-lg p-4 text-sm leading-relaxed overflow-y-auto whitespace-pre-wrap break-words text-indigo-900 font-medium relative">
-                        <span class="text-slate-300 italic">Result will appear here...</span>
-                    </div>
-                    <div id="loadingOverlay" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center hidden">
-                        <div class="typing-indicator">
-                            <span></span><span></span><span></span>
-                        </div>
-                        <p class="text-indigo-600 font-medium mt-3 text-sm animate-pulse">AI is thinking...</p>
-                    </div>
+                    <p
+                        class="text-indigo-600 dark:text-indigo-400 font-semibold mt-4 text-[10px] tracking-wider uppercase animate-pulse">
+                        Generating Magic...</p>
                 </div>
             </div>
+
         </div>
     </main>
 
+    <!-- History Slide-out Drawer -->
+    <div id="historyBackdrop"
+        class="fixed inset-0 z-40 bg-black/50 dark:bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+        onclick="toggleHistory()"></div>
+    <div id="historyDrawer"
+        class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white dark:bg-[#0a0f1d] border-l border-slate-200 dark:border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div
+            class="p-4 border-b border-slate-200 dark:border-slate-800/80 flex justify-between items-center bg-slate-50/50 dark:bg-slate-950/20">
+            <h2 class="text-base font-bold text-slate-800 dark:text-slate-100 font-display flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-indigo-600 dark:text-indigo-400"></i> Revision History
+            </h2>
+            <div class="flex items-center gap-2">
+                <button onclick="clearAllHistory()"
+                    class="text-[10px] font-bold text-rose-600 dark:text-rose-400/80 hover:text-rose-700 uppercase tracking-wider px-2 py-1 rounded bg-rose-500/5 hover:bg-rose-500/10 transition border border-rose-500/10">
+                    Clear All
+                </button>
+                <button onclick="toggleHistory()"
+                    class="text-slate-500 dark:text-slate-400 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Drawer Scroll Container -->
+        <div id="historyContainer" class="flex-grow p-4 overflow-y-auto flex flex-col gap-3">
+            <!-- Rendered dynamically -->
+        </div>
+    </div>
+
     <!-- Settings Modal -->
-    <div id="settingsModal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
-        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="toggleModal()"></div>
+    <div id="settingsModal"
+        class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-250">
+        <div class="absolute inset-0 bg-black/60 dark:bg-black/75 backdrop-blur-md" onclick="toggleModal()"></div>
 
-        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-2xl z-50 overflow-y-auto">
-            <div class="modal-content py-4 text-left px-6">
-                <div class="flex justify-between items-center pb-3">
-                    <p class="text-2xl font-bold text-gray-700">Settings</p>
-                    <div class="modal-close cursor-pointer z-50" onclick="toggleModal()">
-                        <i class="fa-solid fa-xmark text-gray-500 hover:text-gray-800"></i>
-                    </div>
-                </div>
+        <div
+            class="bg-white dark:bg-[#0b0f1a] w-11/12 max-w-md mx-auto rounded-2xl shadow-2xl z-50 overflow-hidden border border-slate-200 dark:border-slate-800/80">
+            <!-- Modal Header -->
+            <div
+                class="flex justify-between items-center p-5 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/20">
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 font-display flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-indigo-600 dark:text-indigo-400"></i> Developer API Settings
+                </h3>
+                <button onclick="toggleModal()" class="text-slate-500 dark:text-slate-400 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
 
-                <div class="my-5">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="providerSelect">
-                        AI Provider
+            <!-- Modal Content -->
+            <div class="p-6 flex flex-col gap-4">
+                <div>
+                    <label
+                        class="block text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-2"
+                        for="providerSelect">
+                        AI Provider Engine
                     </label>
                     <div class="relative">
-                        <select id="providerSelect" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
-                            <option value="gemini">Google Gemini (Requires Key)</option>
-                            <option value="huggingface">HuggingFace / Llama 3.1 (Requires Key)</option>
+                        <select id="providerSelect"
+                            class="block w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 py-3 px-4 pr-10 rounded-xl leading-tight focus:outline-none focus:border-indigo-500 transition text-sm">
+                            <option value="gemini">Google Gemini AI</option>
+                            <option value="huggingface">HuggingFace Serverless / Llama 3.1</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 dark:text-slate-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Gemini Key Section -->
-                    <div id="apiKeySection" class="mt-4 hidden">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="apiKeyInput">
+                <!-- Gemini Key Section -->
+                <div id="apiKeySection" class="hidden">
+                    <div class="flex justify-between items-center mb-2">
+                        <label
+                            class="block text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"
+                            for="apiKeyInput">
                             Gemini API Key
                         </label>
-
-                        <div class="relative">
-                            <input id="apiKeyInput" type="password"
-                                   class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-10 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"
-                                   placeholder="Paste your Gemini API key here...">
-
-                            <button type="button" id="toggleGeminiKey"
-                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                        </div>
-
-                        <p class="text-xs text-gray-500 mt-2">Key is saved in your browser's LocalStorage.</p>
-                        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-indigo-500 hover:underline">Get a Gemini Key</a>
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank"
+                            class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline">Get Key <i
+                                class="fa-solid fa-up-right-from-square text-[8px]"></i></a>
                     </div>
+                    <div class="relative">
+                        <input id="apiKeyInput" type="password"
+                            class="block w-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl py-3 px-4 pr-10 leading-tight focus:outline-none focus:border-indigo-500 transition text-sm font-mono"
+                            placeholder="Paste gemini api key...">
+                        <button type="button" id="toggleGeminiKey"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info"></i> Key stays saved in local storage. Sent via API
+                        parameters.
+                    </p>
+                </div>
 
-                    <!-- HuggingFace Key Section -->
-                    <div id="hfKeySection" class="mt-4 hidden">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="hfApiKeyInput">
-                            HuggingFace API Key
+                <!-- HuggingFace Key Section -->
+                <div id="hfKeySection" class="hidden">
+                    <div class="flex justify-between items-center mb-2">
+                        <label
+                            class="block text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider"
+                            for="hfApiKeyInput">
+                            HuggingFace Token
                         </label>
-
-                        <div class="relative">
-                            <input id="hfApiKeyInput" type="password"
-                                   class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-10 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"
-                                   placeholder="Paste your HuggingFace token here...">
-
-                            <button type="button" id="toggleHfKey"
-                                    class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                        </div>
-
-                        <p class="text-xs text-gray-500 mt-2">Key is saved in your browser's LocalStorage.</p>
-                        <a href="https://huggingface.co/settings/tokens" target="_blank" class="text-xs text-indigo-500 hover:underline">Get a HuggingFace Token</a>
+                        <a href="https://huggingface.co/settings/tokens" target="_blank"
+                            class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline">Get Token <i
+                                class="fa-solid fa-up-right-from-square text-[8px]"></i></a>
                     </div>
+                    <div class="relative">
+                        <input id="hfApiKeyInput" type="password"
+                            class="block w-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl py-3 px-4 pr-10 leading-tight focus:outline-none focus:border-indigo-500 transition text-sm font-mono"
+                            placeholder="Paste huggingface token...">
+                        <button type="button" id="toggleHfKey"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info"></i> Used for serverless completion calls.
+                    </p>
                 </div>
+            </div>
 
-                <div class="flex justify-end pt-2">
-                    <button onclick="saveSettings()" class="px-4 bg-indigo-600 p-3 rounded-lg text-white hover:bg-indigo-500 font-bold transition">Save & Close</button>
-                </div>
+            <!-- Modal Footer -->
+            <div
+                class="px-6 py-4 bg-slate-50 dark:bg-slate-950/40 border-t border-slate-200 dark:border-slate-800/80 flex justify-end">
+                <button onclick="saveSettings()"
+                    class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-semibold text-xs transition active:scale-95 shadow-md shadow-indigo-600/20">
+                    Apply & Close
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none flex items-center gap-2 z-50">
-        <i class="fa-solid fa-check text-green-400"></i>
-        <span id="toastMsg">Copied to clipboard!</span>
+    <!-- Toast Banner -->
+    <div id="toast"
+        class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 px-5 py-3 rounded-2xl shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none flex items-center gap-2.5 z-50 backdrop-blur-md max-w-sm w-auto">
+        <i id="toastIcon" class="fa-solid fa-check text-green-550 dark:text-green-400 text-sm"></i>
+        <span id="toastMsg" class="text-xs font-semibold">Message here...</span>
     </div>
 
+    <!-- Main JavaScript Logic -->
     <script>
+        // Imminent theme initialization to prevent flashes
+        initTheme();
+
+        function initTheme () {
+            const savedTheme = localStorage.getItem('cs_theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                // Auto system theme
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setTheme(prefersDark ? 'dark' : 'light');
+            }
+        }
+
+        function setTheme (theme) {
+            const html = document.documentElement;
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            if (!themeToggleBtn) return; // Wait for load if called early
+            const themeIcon = themeToggleBtn.querySelector('i');
+
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                themeIcon.className = "fa-solid fa-sun text-xs sm:text-sm";
+                themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
+                localStorage.setItem('cs_theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                themeIcon.className = "fa-solid fa-moon text-xs sm:text-sm";
+                themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
+                localStorage.setItem('cs_theme', 'light');
+            }
+        }
+
+        function toggleTheme () {
+            const isDark = document.documentElement.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+            showToast(isDark ? "Switched to Light Theme" : "Switched to Dark Theme");
+        }
+
         const input = document.getElementById('userInput');
         const output = document.getElementById('mirrorOutput');
         const charCount = document.getElementById('charCount');
+        const wordCount = document.getElementById('wordCount');
+        const readingTime = document.getElementById('readingTime');
+        const readabilityComplexity = document.getElementById('readabilityComplexity');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const modeBadge = document.getElementById('modeBadge');
         const currentProviderLabel = document.getElementById('currentProviderLabel');
@@ -260,38 +553,139 @@
         const hfApiKeyInput = document.getElementById('hfApiKeyInput');
 
         let isAiMode = false;
+        let activeTab = 'input';
+        let rawInputText = "";
+        let rawOutputText = "";
+        let showDiff = false;
+        let history = [];
+
+        // Text to speech state
+        const synth = window.speechSynthesis;
+        let utterance = null;
 
         window.onload = function () {
+            // Apply correct button theme icons state
+            initTheme();
             loadSettings();
+            loadHistory();
         };
 
+        // Live text formatting and statistics
         input.addEventListener('input', function () {
             const text = this.value;
-            charCount.textContent = `${text.length} chars`;
+            rawInputText = text;
+
+            const chars = text.length;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const minutes = Math.ceil(words / 200);
+
+            charCount.textContent = `${chars} chars`;
+            wordCount.textContent = `${words} words`;
+            readingTime.textContent = `${minutes} min read`;
+
+            let complexity = "Easy";
+            if (words > 40) {
+                const wordLength = text.replace(/\s+/g, '').length / words;
+                if (wordLength > 5.8) complexity = "Advanced";
+                else if (wordLength > 4.6) complexity = "Medium";
+            }
+            readabilityComplexity.textContent = complexity;
 
             if (isAiMode) {
                 isAiMode = false;
                 modeBadge.classList.add('hidden');
             }
 
-            if (text.length === 0) {
-                output.innerHTML = '<span class="text-slate-300 italic">Result will appear here...</span>';
+            if (chars === 0) {
+                output.innerHTML = '<span class="text-slate-400 dark:text-slate-500 italic">Result will appear here...</span>';
+                rawOutputText = "";
             } else {
-                output.textContent = text;
+                if (!rawOutputText || rawOutputText === "Result will appear here...") {
+                    output.textContent = text;
+                }
             }
         });
 
-        async function triggerAI(mode) {
+        // Toggle Output differences rendering
+        function toggleDiff () {
+            showDiff = !showDiff;
+            const diffToggleBtn = document.getElementById('diffToggleBtn');
+            if (showDiff) {
+                diffToggleBtn.classList.remove('text-slate-500', 'dark:text-slate-400');
+                diffToggleBtn.classList.add('bg-indigo-650', 'dark:bg-indigo-600', 'text-white');
+                showToast("Diff highlight active");
+            } else {
+                diffToggleBtn.classList.remove('bg-indigo-650', 'dark:bg-indigo-600', 'text-white');
+                diffToggleBtn.classList.add('text-slate-500', 'dark:text-slate-400');
+                showToast("Diff highlight deactivated");
+            }
+            renderOutput();
+        }
+
+        // Render dynamic output content
+        function renderOutput () {
+            if (!rawOutputText || rawOutputText === "Result will appear here...") {
+                output.innerHTML = '<span class="text-slate-400 dark:text-slate-500 italic">Result will appear here...</span>';
+                return;
+            }
+            if (showDiff && rawInputText) {
+                output.innerHTML = diffWords(rawInputText, rawOutputText);
+            } else {
+                output.textContent = rawOutputText;
+            }
+        }
+
+        // Mobile responsive tab switcher
+        function switchTab (tab) {
+            activeTab = tab;
+            const inputCard = document.getElementById('inputCard');
+            const outputCard = document.getElementById('outputCard');
+            const tabIndicator = document.getElementById('tabIndicator');
+            const tabBtnInput = document.getElementById('tabBtnInput');
+            const tabBtnOutput = document.getElementById('tabBtnOutput');
+
+            if (tab === 'input') {
+                inputCard.classList.remove('hidden');
+                inputCard.classList.add('flex');
+                outputCard.classList.add('hidden');
+                outputCard.classList.remove('flex');
+                tabIndicator.style.transform = 'translateX(0)';
+                tabBtnInput.classList.remove('text-slate-500', 'dark:text-slate-400');
+                tabBtnInput.classList.add('text-white');
+                tabBtnOutput.classList.remove('text-white');
+                tabBtnOutput.classList.add('text-slate-500', 'dark:text-slate-400');
+            } else {
+                outputCard.classList.remove('hidden');
+                outputCard.classList.add('flex');
+                inputCard.classList.add('hidden');
+                inputCard.classList.remove('flex');
+                tabIndicator.style.transform = 'translateX(100%)';
+                tabBtnOutput.classList.remove('text-slate-500', 'dark:text-slate-400');
+                tabBtnOutput.classList.add('text-white');
+                tabBtnInput.classList.remove('text-white');
+                tabBtnInput.classList.add('text-slate-500', 'dark:text-slate-400');
+            }
+        }
+
+        // Action presets execution logic
+        async function triggerAI (mode) {
             const text = input.value.trim();
             if (!text) {
-                showToast("Please enter some text first!", true);
+                showToast("Please write or paste some text first!", true);
                 return;
             }
 
             loadingOverlay.classList.remove('hidden');
-            isAiMode = true;
+            loadingOverlay.classList.add('flex');
+            setTimeout(() => loadingOverlay.classList.remove('opacity-0'), 10);
 
+            isAiMode = true;
             const provider = localStorage.getItem('cs_provider') || 'gemini';
+
+            // Auto switch tab to output on mobile to see response
+            if (window.innerWidth < 768) {
+                switchTab('output');
+            }
 
             try {
                 let resultText = "";
@@ -302,47 +696,56 @@
                     resultText = await callHuggingFace(mode, text);
                 }
 
-                output.textContent = resultText;
+                rawOutputText = resultText;
                 modeBadge.classList.remove('hidden');
-                modeBadge.textContent = `AI: ${mode.charAt(0).toUpperCase() + mode.slice(1)}`;
+                modeBadge.textContent = `Tone: ${mode.toUpperCase()}`;
+
+                renderOutput();
+
+                // Save to historical log
+                saveHistoryEntry(mode, text, resultText);
 
             } catch (error) {
                 console.error(error);
-                output.innerHTML = `<span class="text-red-500">Error: ${error.message}</span>`;
+                output.innerHTML = `<span class="text-rose-650 dark:text-rose-500 font-medium"><i class="fa-solid fa-triangle-exclamation"></i> Error: ${error.message}</span>`;
             } finally {
-                loadingOverlay.classList.add('hidden');
+                loadingOverlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    loadingOverlay.classList.add('hidden');
+                    loadingOverlay.classList.remove('flex');
+                }, 200);
             }
         }
 
-        async function callGemini(mode, text) {
+        // Google Gemini Rest Call using API Key in url (original query structures)
+        async function callGemini (mode, text) {
             const apiKey = localStorage.getItem('cs_gemini_key');
-            if (!apiKey) throw new Error("Missing Gemini API Key. Please set it in Settings.");
+            if (!apiKey) throw new Error("Missing Gemini API Key. Go to Settings.");
 
             const prompt = getPrompt(mode, text);
-            // Note: The model names should match the current availability in AI Studio
+            // Reverted models array list exactly
             const models = [
                 "gemini-3.1-flash-lite",
                 "gemini-2.5-flash-lite",
-
                 "gemini-2.5-flash",
                 "gemini-3-flash-preview",
-
                 "gemini-2.5-pro",
                 "gemini-3.1-pro-preview"
             ];
 
             const payload = {
-                contents: [{ parts: [{ text: prompt }] }]
+                contents: [ { parts: [ { text: prompt } ] } ]
             };
 
             const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-            async function tryModel(model) {
+            async function tryModel (model) {
+                // Reverted back to the original url query parameters representation
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
                 for (let attempt = 1; attempt <= 2; attempt++) {
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
+                    const timeoutId = setTimeout(() => controller.abort(), 20000);
 
                     try {
                         const response = await fetch(url, {
@@ -358,33 +761,24 @@
                             const errData = await response.json().catch(() => ({}));
                             const status = response.status;
                             const msg = errData.error?.message || `HTTP ${status}`;
-
-                            // Only retry on rate limits (429) or transient server issues (5xx)
                             const retryable = status === 429 || status >= 500;
 
                             if (attempt === 1 && retryable) {
                                 await sleep(1000 * attempt);
                                 continue;
                             }
-
                             throw new Error(`${model} failed (${status}): ${msg}`);
                         }
 
                         const data = await response.json();
-                        const resultText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                        const resultText = data?.candidates?.[ 0 ]?.content?.parts?.[ 0 ]?.text;
 
-                        if (!resultText) throw new Error("Empty response from model");
-
+                        if (!resultText) throw new Error("Empty response payload");
                         return resultText;
 
                     } catch (err) {
                         clearTimeout(timeoutId);
                         const isLastAttempt = attempt === 2;
-
-                        if (err.name === 'AbortError') {
-                            console.warn(`${model} timed out on attempt ${attempt}`);
-                        }
-
                         if (!isLastAttempt) {
                             await sleep(1000 * attempt);
                             continue;
@@ -395,23 +789,21 @@
             }
 
             let lastError;
-
             for (const model of models) {
                 try {
-                    // Success returns immediately
                     return await tryModel(model);
                 } catch (err) {
                     console.warn(`Fallback triggered: ${model} failed`, err.message);
                     lastError = err;
                 }
             }
-
             throw lastError || new Error("All Gemini models failed after retries");
         }
 
-        async function callHuggingFace(mode, text) {
+        // HuggingFace completion calls
+        async function callHuggingFace (mode, text) {
             const apiKey = localStorage.getItem('cs_hf_key');
-            if (!apiKey) throw new Error("Missing HuggingFace API Key. Please set it in Settings.");
+            if (!apiKey) throw new Error("Missing HuggingFace Token. Go to Settings.");
 
             const prompt = getPrompt(mode, text);
 
@@ -423,48 +815,215 @@
                 },
                 body: JSON.stringify({
                     model: "meta-llama/Llama-3.1-8B-Instruct:cerebras",
-                    messages: [{ role: "user", content: prompt }]
+                    messages: [ { role: "user", content: prompt } ]
                 })
             });
 
             if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error?.message || "HuggingFace API failed");
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error?.message || `HTTP ${response.status} failed`);
             }
 
             const data = await response.json();
             if (data.choices && data.choices.length > 0) {
-                return data.choices[0].message.content;
+                return data.choices[ 0 ].message.content;
             }
-            throw new Error("No response from HuggingFace.");
+            throw new Error("No output generated from Llama 3.1.");
         }
 
-        function getPrompt(mode, text) {
+        // Prompt Tone Generator
+        function getPrompt (mode, text) {
             switch (mode) {
                 case 'improve':
-                    return `Correct the spelling and grammar of the following text. Return plain text without any formatting or additional content. Text: "${text}"`;
+                    return `Correct spelling, typos, and improve the general grammar of the following text. Return the revised plain text only, no wrappers, explanations, quotes, or markdown. Text: "${text}"`;
                 case 'professional':
-                    return `Rephrase the following text to sound more professional and formal. Return plain text without any formatting. Text: "${text}"`;
-                case 'advanced':
-                    return `Act as a professional English editor. Improve the following text by correcting spelling, grammar, and punctuation, and enhancing clarity, flow, and readability. Do not add comments or explanations. Return only the edited text as plain text. Text: "${text}"`;
-                case 'humor':
-                    return `Rewrite the following text to be hilariously funny and witty, incorporating clever wordplay, absurd twists, and light-hearted humor while preserving the original meaning. Keep it playful and family-friendly. Return only the funny version as plain text, with no additional formatting or comments. Text: "${text}"`;
+                    return `Rewrite the following text to sound highly professional, formal, persuasive, and authoritative. Return only the revised plain text with no comments. Text: "${text}"`;
+                case 'casual':
+                    return `Rewrite the following text to sound friendly, relaxed, conversational, and natural. Keep it casual and engaging. Return only the rewritten plain text. Text: "${text}"`;
+                case 'summarize':
+                    return `Create a concise summary of the key message in the text. Return only 1 or 2 sentences of simple plain text. Text: "${text}"`;
+                case 'bullet':
+                    return `Extract the key bullet points from the text. Format them with simple dashes (-). Return only the raw bullet points list. Text: "${text}"`;
+                case 'expand':
+                    return `Elaborate on the following text by adding rich descriptive details, clarity, and depth while maintaining the exact core message. Return only the expanded plain text. Text: "${text}"`;
                 case 'sarcastic':
-                    return `Rewrite the following text to be extremely rude and offensive, incorporating profanity, bad words, and aggressive insults liberally while preserving the original meaning. Make it as insulting and crude as possible. Return only the rude version as plain text, with no additional formatting or comments. Text: "${text}"`;
+                    return `Rewrite the following text with sharp, clever sarcasm and dry humor while preserving the original meaning. Keep it smart and fun. Return only the sarcastic version. Text: "${text}"`;
                 case 'prompt':
-                    return `You are an expert prompt creator. Your task is to craft an optimized prompt based on the user-provided input for use with ChatGPT, GPT-3, or GPT-4. The output prompt should:
-- Be clear, concise, and specific.
-- Include instructions to match the user's communication style.
-- Be written from the user's perspective, requesting assistance from an AI.
-- Avoid ambiguity and ensure actionable instructions.
-Input text: "${text}"
-Return only the optimized prompt as plain text.`;
+                    return `Reconstruct the input text into a highly optimized, structured prompt tailored for advanced large language models (ChatGPT, Gemini). Return only the finalized prompt as plain text. Text: "${text}"`;
                 default:
-                    return `Improve the following text by correcting spelling, grammar, and clarity. Return only plain text. Text: "${text}"`;
+                    return `Correct the spelling and improve readability. Return plain text only. Text: "${text}"`;
             }
         }
 
-        function loadSettings() {
+        // Text-to-Speech Output Audio Player
+        function toggleSpeak () {
+            if (!synth) {
+                showToast("Speech audio not supported on this browser.", true);
+                return;
+            }
+
+            const speakBtn = document.getElementById('speakBtn');
+            const speakIcon = speakBtn.querySelector('i');
+
+            if (synth.speaking) {
+                synth.cancel();
+                speakIcon.className = "fa-solid fa-volume-high text-xs";
+                speakBtn.classList.remove('text-indigo-650', 'dark:text-indigo-400');
+                showToast("Audio stopped");
+            } else {
+                const text = rawOutputText;
+                if (!text || text === "Result will appear here...") {
+                    showToast("No text to play.", true);
+                    return;
+                }
+
+                utterance = new SpeechSynthesisUtterance(text);
+                utterance.onend = function () {
+                    speakIcon.className = "fa-solid fa-volume-high text-xs";
+                    speakBtn.classList.remove('text-indigo-650', 'dark:text-indigo-400');
+                };
+                utterance.onerror = function () {
+                    speakIcon.className = "fa-solid fa-volume-high text-xs";
+                    speakBtn.classList.remove('text-indigo-650', 'dark:text-indigo-400');
+                };
+
+                speakIcon.className = "fa-solid fa-circle-stop animate-pulse text-xs text-indigo-600 dark:text-indigo-400";
+                speakBtn.classList.add('text-indigo-600', 'dark:text-indigo-400');
+                synth.speak(utterance);
+                showToast("Reading aloud...");
+            }
+        }
+
+        // History Data Management via LocalStorage
+        function loadHistory () {
+            const saved = localStorage.getItem('cs_history');
+            if (saved) {
+                try {
+                    history = JSON.parse(saved);
+                } catch (e) {
+                    history = [];
+                }
+            }
+            renderHistory();
+        }
+
+        // Helper String Escapers for Dynamic HTML Generation
+        function escapeHtml (text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function escapeJsString (str) {
+            if (!str) return "";
+            return str
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, "\\'")
+                .replace(/"/g, '\\"')
+                .replace(/\n/g, '\\n')
+                .replace(/\r/g, '\\r');
+        }
+
+        function saveHistoryEntry (tone, inputVal, outputVal) {
+            const entry = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString([], { month: 'short', day: 'numeric' }),
+                tone: tone,
+                input: inputVal,
+                output: outputVal
+            };
+
+            history.unshift(entry);
+            if (history.length > 15) history.pop();
+            localStorage.setItem('cs_history', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory () {
+            const container = document.getElementById('historyContainer');
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-600">
+                        <i class="fa-solid fa-clock-rotate-left text-4xl mb-3 opacity-30 animate-pulse"></i>
+                        <p class="text-xs">No previous logs saved yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = history.map(entry => `
+                <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-slate-300 dark:hover:border-slate-700/60 transition-all flex flex-col gap-1.5 relative group">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-500/10">${entry.tone}</span>
+                        <span class="text-[9px] text-slate-400 dark:text-slate-500">${entry.date} ${entry.timestamp}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-2 italic">"${escapeHtml(entry.input)}"</p>
+                    <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200 dark:border-slate-800/40">
+                        <button onclick="restoreHistory(${entry.id})" class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:text-indigo-850 dark:hover:text-indigo-300 font-semibold flex items-center gap-1.5">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Restore
+                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="copyText('${escapeJsString(entry.output)}')" class="text-[10px] text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                            <button onclick="deleteHistory(${entry.id})" class="text-[10px] text-rose-600/50 dark:text-rose-500/55 hover:text-rose-400 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function restoreHistory (id) {
+            const entry = history.find(e => e.id === id);
+            if (entry) {
+                input.value = entry.input;
+                rawInputText = entry.input;
+                rawOutputText = entry.output;
+
+                if (window.innerWidth < 768) {
+                    switchTab('input');
+                }
+
+                input.dispatchEvent(new Event('input'));
+                renderOutput();
+                toggleHistory();
+                showToast("Restored from logs!");
+            }
+        }
+
+        function deleteHistory (id) {
+            history = history.filter(e => e.id !== id);
+            localStorage.setItem('cs_history', JSON.stringify(history));
+            renderHistory();
+            showToast("Log removed");
+        }
+
+        function clearAllHistory () {
+            if (confirm("Are you sure you want to clear your entire rewrite history?")) {
+                history = [];
+                localStorage.setItem('cs_history', JSON.stringify(history));
+                renderHistory();
+                showToast("All logs cleared.");
+            }
+        }
+
+        function toggleHistory () {
+            const drawer = document.getElementById('historyDrawer');
+            const backdrop = document.getElementById('historyBackdrop');
+            drawer.classList.toggle('translate-x-full');
+            backdrop.classList.toggle('opacity-0');
+            backdrop.classList.toggle('pointer-events-none');
+        }
+
+        // Settings Dialog Management
+        function loadSettings () {
             const provider = localStorage.getItem('cs_provider') || 'gemini';
             const geminiKey = localStorage.getItem('cs_gemini_key') || '';
             const hfKey = localStorage.getItem('cs_hf_key') || '';
@@ -477,7 +1036,7 @@ Return only the optimized prompt as plain text.`;
             updateProviderLabel(provider);
         }
 
-        function saveSettings() {
+        function saveSettings () {
             const provider = providerSelect.value;
             const geminiKey = apiKeyInput.value.trim();
             const hfKey = hfApiKeyInput.value.trim();
@@ -488,14 +1047,14 @@ Return only the optimized prompt as plain text.`;
 
             updateProviderLabel(provider);
             toggleModal();
-            showToast("Settings saved!");
+            showToast("Settings applied!");
         }
 
         providerSelect.addEventListener('change', (e) => {
             toggleApiKeyField(e.target.value);
         });
 
-        function toggleApiKeyField(provider) {
+        function toggleApiKeyField (provider) {
             apiKeySection.classList.add('hidden');
             hfKeySection.classList.add('hidden');
 
@@ -506,50 +1065,58 @@ Return only the optimized prompt as plain text.`;
             }
         }
 
-        function updateProviderLabel(provider) {
+        function updateProviderLabel (provider) {
             const labels = {
                 gemini: 'Google Gemini',
-                huggingface: 'HuggingFace / Llama 3.1'
+                huggingface: 'HuggingFace Llama'
             };
-            currentProviderLabel.textContent = `Using: ${labels[provider] || provider}`;
-            currentProviderLabel.className = provider === 'gemini'
-                ? 'text-xs text-indigo-500 font-bold'
-                : 'text-xs text-green-500 font-bold';
+            const labelText = labels[ provider ] || provider;
+            const dotColor = (provider === 'gemini' && localStorage.getItem('cs_gemini_key')) || (provider === 'huggingface' && localStorage.getItem('cs_hf_key'))
+                ? 'bg-green-500'
+                : 'bg-red-500';
+
+            currentProviderLabel.innerHTML = `
+                <span class="w-1.5 h-1.5 ${dotColor} rounded-full"></span> Running: ${labelText}
+            `;
         }
 
-        function toggleModal() {
-            const modal = document.querySelector('.modal');
-            const body = document.querySelector('body');
-            modal.classList.toggle('opacity-0');
-            modal.classList.toggle('pointer-events-none');
-            body.classList.toggle('modal-active');
+        function toggleModal () {
+            const modal = document.getElementById('settingsModal');
+            const active = !modal.classList.contains('opacity-0');
+            if (active) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            }
         }
 
-        function setupVisibilityToggle(inputId, buttonId) {
-            const input = document.getElementById(inputId);
+        // Setup eye visual toggles for private keys
+        function setupVisibilityToggle (inputId, buttonId) {
+            const field = document.getElementById(inputId);
             const button = document.getElementById(buttonId);
             const icon = button.querySelector('i');
 
             button.addEventListener('click', () => {
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
-
-                icon.className = isPassword
-                    ? 'fa-regular fa-eye-slash'
-                    : 'fa-regular fa-eye';
+                const isPassword = field.type === 'password';
+                field.type = isPassword ? 'text' : 'password';
+                icon.className = isPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
             });
         }
 
-        // Init toggles
         setupVisibilityToggle('apiKeyInput', 'toggleGeminiKey');
         setupVisibilityToggle('hfApiKeyInput', 'toggleHfKey');
-        function clearText() {
+
+        // General text editing helpers
+        function clearText () {
             input.value = '';
+            rawInputText = '';
+            rawOutputText = '';
             input.dispatchEvent(new Event('input'));
             input.focus();
         }
 
-        async function pasteFromClipboard() {
+        // Reverted paste button exactly to the very first version
+        async function pasteFromClipboard () {
             try {
                 const text = await navigator.clipboard.readText();
                 input.value = text;
@@ -561,7 +1128,8 @@ Return only the optimized prompt as plain text.`;
             }
         }
 
-        function copyToClipboard() {
+        // Reverted copy button exactly to the very first version
+        function copyToClipboard () {
             const textToCopy = output.innerText;
             if (!textToCopy || textToCopy === "Result will appear here...") return;
 
@@ -578,18 +1146,87 @@ Return only the optimized prompt as plain text.`;
             });
         }
 
-        function showToast(msg, isError = false) {
+        // Helper copyText method for list log
+        function copyText (str) {
+            navigator.clipboard.writeText(str).then(() => {
+                showToast("Copied to clipboard!");
+            }).catch(() => {
+                const tempArea = document.createElement('textarea');
+                tempArea.value = str;
+                document.body.appendChild(tempArea);
+                tempArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempArea);
+                showToast("Copied!");
+            });
+        }
+
+        function showToast (msg, isError = false) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+            if (!toast || !toastMsg || !toastIcon) return;
 
             toastMsg.textContent = msg;
-            toast.querySelector('i').className = isError
-                ? "fa-solid fa-circle-exclamation text-red-400"
-                : "fa-solid fa-check text-green-400";
+            toastIcon.className = isError
+                ? "fa-solid fa-triangle-exclamation text-rose-500 dark:text-rose-400 text-sm animate-bounce"
+                : "fa-solid fa-circle-check text-green-600 dark:text-green-400 text-sm";
 
-            toast.classList.remove('opacity-0');
-            setTimeout(() => toast.classList.add('opacity-0'), 2500);
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+
+        // Custom LCS word-by-word difference highlight engine
+        function diffWords (oldStr, newStr) {
+            if (!oldStr) return escapeHtml(newStr);
+            if (!newStr) return "";
+
+            const oldWords = oldStr.split(/(\s+)/);
+            const newWords = newStr.split(/(\s+)/);
+
+            const dp = Array(oldWords.length + 1).fill(null).map(() => Array(newWords.length + 1).fill(0));
+
+            for (let i = 1; i <= oldWords.length; i++) {
+                for (let j = 1; j <= newWords.length; j++) {
+                    if (oldWords[ i - 1 ] === newWords[ j - 1 ]) {
+                        dp[ i ][ j ] = dp[ i - 1 ][ j - 1 ] + 1;
+                    } else {
+                        dp[ i ][ j ] = Math.max(dp[ i - 1 ][ j ], dp[ i ][ j - 1 ]);
+                    }
+                }
+            }
+
+            let i = oldWords.length;
+            let j = newWords.length;
+            const diff = [];
+
+            while (i > 0 || j > 0) {
+                if (i > 0 && j > 0 && oldWords[ i - 1 ] === newWords[ j - 1 ]) {
+                    diff.unshift({ type: 'equal', value: oldWords[ i - 1 ] });
+                    i--;
+                    j--;
+                } else if (j > 0 && (i === 0 || dp[ i ][ j - 1 ] >= dp[ i - 1 ][ j ])) {
+                    diff.unshift({ type: 'insert', value: newWords[ j - 1 ] });
+                    j--;
+                } else {
+                    diff.unshift({ type: 'delete', value: oldWords[ i - 1 ] });
+                    i--;
+                }
+            }
+
+            return diff.map(part => {
+                if (part.type === 'insert') {
+                    return `<ins class="diff-added">${escapeHtml(part.value)}</ins>`;
+                } else if (part.type === 'delete') {
+                    return `<del class="diff-removed">${escapeHtml(part.value)}</del>`;
+                } else {
+                    return escapeHtml(part.value);
+                }
+            }).join('');
         }
     </script>
 </body>
+
 </html>
