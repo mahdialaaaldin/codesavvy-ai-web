@@ -192,17 +192,29 @@
             </div>
         </header>
 
-        <!-- Rewrite Tones Horizontal Carousel -->
+        <!-- Action Presets Horizontal Carousel -->
         <section class="w-full">
             <div class="flex justify-between items-center mb-2 px-1">
-                <p class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Tone
-                    Presets</p>
-                <span
-                    class="text-[9px] text-indigo-500 dark:text-indigo-400/80 font-medium md:hidden flex items-center gap-1">
-                    Swipe for more <i class="fa-solid fa-arrow-right"></i>
-                </span>
+                <p class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-sliders text-indigo-500"></i> Action Presets
+                </p>
+                <div class="flex items-center gap-1">
+                    <span class="text-[9px] text-slate-400 dark:text-slate-500 font-medium mr-1 hidden sm:inline-block">
+                        Scroll / Drag to view all
+                    </span>
+                    <button onclick="scrollPresetCarousel(-220)" type="button"
+                        class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition text-xs flex items-center justify-center border border-slate-200 dark:border-slate-800 shadow-sm active:scale-95"
+                        title="Scroll Left">
+                        <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                    </button>
+                    <button onclick="scrollPresetCarousel(220)" type="button"
+                        class="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition text-xs flex items-center justify-center border border-slate-200 dark:border-slate-800 shadow-sm active:scale-95"
+                        title="Scroll Right">
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </button>
+                </div>
             </div>
-            <div class="flex overflow-x-auto gap-2 pb-1 -mx-3 px-3 scrollbar-none snap-x snap-mandatory">
+            <div id="tonePresetsCarousel" class="flex overflow-x-auto gap-2 py-1.5 -mx-1 px-1 scrollbar-none snap-x snap-mandatory cursor-grab select-none">
                 <button onclick="triggerAI('improve')"
                     class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Correct & Polish
@@ -566,6 +578,57 @@
                             placeholder="e.g. 14 (decimals allowed, e.g. 0.5 = 12h)">
                     </div>
                 </div>
+
+                <hr class="border-slate-200 dark:border-slate-800/80">
+
+                <!-- Preset Prompts Section -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders"></i> Preset Prompts
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 dark:text-slate-500">Define custom preset prompts that appear in your main action toolbar.</p>
+                    
+                    <!-- Create / Edit Preset Form -->
+                    <div id="customPresetFormCard" class="p-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col gap-3 transition-all">
+                        <span id="customPresetFormTitle" class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus-circle text-indigo-500"></i> Create New Preset
+                        </span>
+                        <div>
+                            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-semibold mb-1" for="newPresetName">
+                                Menu Item Name
+                            </label>
+                            <input id="newPresetName" type="text"
+                                class="block w-full bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 leading-tight focus:outline-none focus:border-indigo-500 transition text-xs font-medium"
+                                placeholder="e.g. Translate to French">
+                        </div>
+                        <div>
+                            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-semibold mb-1" for="newPresetPrompt">
+                                System Prompt Instructions
+                            </label>
+                            <textarea id="newPresetPrompt" rows="2"
+                                class="block w-full bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-3 leading-tight focus:outline-none focus:border-indigo-500 transition text-xs leading-relaxed resize-none font-medium"
+                                placeholder="e.g. Translate the input text into fluent, natural French."></textarea>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" id="btnSavePreset" onclick="addOrUpdateCustomPreset()"
+                                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold text-xs rounded-xl transition shadow-md shadow-indigo-600/20 flex items-center gap-1.5">
+                                <i id="btnSavePresetIcon" class="fa-solid fa-plus text-[10px]"></i>
+                                <span id="btnSavePresetText">Add Preset</span>
+                            </button>
+                            <button type="button" id="btnCancelEditPreset" onclick="cancelEditCustomPreset()"
+                                class="hidden px-3 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Presets List -->
+                    <div id="customPresetsContainer" class="flex flex-col gap-2">
+                        <!-- Dynamically rendered custom preset items -->
+                    </div>
+                </div>
             </div>
             <!-- Modal Footer -->
             <div
@@ -659,6 +722,7 @@
             initTheme();
             loadSettings();
             loadHistory();
+            loadCustomPresets();
         };
 
         // Live text formatting and statistics
@@ -783,11 +847,14 @@
                 const resultText = await callGemini(mode, text);
                 rawOutputText = resultText;
                 modeBadge.classList.remove('hidden');
-                modeBadge.textContent = `Tone: ${mode.toUpperCase()}`;
+                const customMatch = customPresets.find(p => p.id === mode);
+                const builtInMatch = defaultPresets.find(p => p.id === mode);
+                const displayModeName = customMatch ? customMatch.name : (builtInMatch ? builtInMatch.name : mode.toUpperCase());
+                modeBadge.textContent = `Preset: ${displayModeName}`;
                 renderOutput();
 
-                // Save to historical log (checks historyMode & retention)
-                saveHistoryEntry(mode, text, resultText);
+                // Save to historical log with friendly preset display name
+                saveHistoryEntry(displayModeName, text, resultText);
             } catch (error) {
                 console.error(error);
                 output.innerHTML = `<span class="text-rose-650 dark:text-rose-500 font-medium"><i class="fa-solid fa-triangle-exclamation"></i> Error: ${error.message}</span>`;
@@ -884,27 +951,280 @@
         }
 
 
+        // Built-in Presets Definition
+        const defaultPresets = [
+            { id: 'improve', name: 'Correct & Polish', icon: 'fa-wand-magic-sparkles', class: 'bg-indigo-50 dark:bg-indigo-500/10 border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-650' },
+            { id: 'professional', name: 'Professional', icon: 'fa-briefcase', class: 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-650' },
+            { id: 'casual', name: 'Conversational', icon: 'fa-comments', class: 'bg-sky-50 dark:bg-sky-500/10 border-sky-100 dark:border-sky-500/20 text-sky-600 dark:text-sky-300 hover:bg-sky-600 hover:text-white dark:hover:bg-sky-650' },
+            { id: 'summarize', name: 'Summarize', icon: 'fa-compress', class: 'bg-amber-50 dark:bg-amber-500/10 border-amber-100 dark:border-amber-500/20 text-amber-600 dark:text-amber-300 hover:bg-amber-600 hover:text-white dark:hover:bg-amber-650' },
+            { id: 'bullet', name: 'Bullet Points', icon: 'fa-list-ul', class: 'bg-purple-50 dark:bg-purple-500/10 border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-650' },
+            { id: 'expand', name: 'Expand', icon: 'fa-expand', class: 'bg-cyan-50 dark:bg-cyan-500/10 border-cyan-100 dark:border-cyan-500/20 text-cyan-600 dark:text-cyan-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-650' },
+            { id: 'sarcastic', name: 'Sarcastic', icon: 'fa-mask', class: 'bg-rose-50 dark:bg-rose-500/10 border-rose-100 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-600 hover:text-white dark:hover:bg-rose-650' },
+            { id: 'prompt', name: 'Prompt Architect', icon: 'fa-robot', class: 'bg-orange-50 dark:bg-orange-500/10 border-orange-100 dark:border-orange-500/20 text-orange-600 dark:text-orange-300 hover:bg-orange-600 hover:text-white dark:hover:bg-orange-650' }
+        ];
+
+        let customPresets = [];
+        const STRICT_FORMATTING_SUFFIX = "\n\nCRITICAL INSTRUCTION: Return ONLY the processed result as plain text. Do NOT include any introductory greetings, commentary, labels, quotes, explanations, or markdown code block formatting (unless raw markdown is explicitly requested).";
+
+        function loadCustomPresets () {
+            const saved = localStorage.getItem('cs_custom_presets');
+            if (saved) {
+                try {
+                    customPresets = JSON.parse(saved);
+                } catch (e) {
+                    customPresets = [];
+                }
+            } else {
+                customPresets = [];
+            }
+            renderPresetCarousel();
+            renderCustomPresetsList();
+            setupCarouselScroll();
+        }
+
+        function scrollPresetCarousel (offset) {
+            const carousel = document.getElementById('tonePresetsCarousel');
+            if (carousel) {
+                carousel.scrollBy({ left: offset, behavior: 'smooth' });
+            }
+        }
+
+        function setupCarouselScroll () {
+            const carousel = document.getElementById('tonePresetsCarousel');
+            if (!carousel || carousel.dataset.scrollBound) return;
+            carousel.dataset.scrollBound = "true";
+
+            carousel.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    carousel.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            carousel.addEventListener('mousedown', (e) => {
+                isDown = true;
+                carousel.classList.add('cursor-grabbing');
+                startX = e.pageX - carousel.offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                isDown = false;
+                carousel.classList.remove('cursor-grabbing');
+            });
+
+            carousel.addEventListener('mouseup', () => {
+                isDown = false;
+                carousel.classList.remove('cursor-grabbing');
+            });
+
+            carousel.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - carousel.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                carousel.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        function saveCustomPresets () {
+            localStorage.setItem('cs_custom_presets', JSON.stringify(customPresets));
+            renderPresetCarousel();
+            renderCustomPresetsList();
+        }
+
+        let editingPresetId = null;
+
+        function addOrUpdateCustomPreset () {
+            const nameInput = document.getElementById('newPresetName');
+            const promptInput = document.getElementById('newPresetPrompt');
+            const name = nameInput ? nameInput.value.trim() : '';
+            const prompt = promptInput ? promptInput.value.trim() : '';
+
+            if (!name) {
+                showToast("Please enter a menu item name.", true);
+                if (nameInput) nameInput.focus();
+                return;
+            }
+            if (!prompt) {
+                showToast("Please enter system prompt instructions.", true);
+                if (promptInput) promptInput.focus();
+                return;
+            }
+
+            if (editingPresetId) {
+                const preset = customPresets.find(p => p.id === editingPresetId);
+                if (preset) {
+                    preset.name = name;
+                    preset.prompt = prompt;
+                    saveCustomPresets();
+                    showToast(`Updated custom preset "${name}"!`);
+                }
+                cancelEditCustomPreset();
+            } else {
+                const newPreset = {
+                    id: 'custom_' + Date.now(),
+                    name: name,
+                    prompt: prompt,
+                    isCustom: true
+                };
+                customPresets.push(newPreset);
+                saveCustomPresets();
+                if (nameInput) nameInput.value = '';
+                if (promptInput) promptInput.value = '';
+                showToast(`Added custom preset "${name}"!`);
+            }
+        }
+
+        function editCustomPreset (id) {
+            const preset = customPresets.find(p => p.id === id);
+            if (!preset) return;
+
+            editingPresetId = id;
+            const nameInput = document.getElementById('newPresetName');
+            const promptInput = document.getElementById('newPresetPrompt');
+            const titleEl = document.getElementById('customPresetFormTitle');
+            const btnText = document.getElementById('btnSavePresetText');
+            const btnIcon = document.getElementById('btnSavePresetIcon');
+            const cancelBtn = document.getElementById('btnCancelEditPreset');
+
+            if (nameInput) nameInput.value = preset.name;
+            if (promptInput) promptInput.value = preset.prompt;
+
+            if (titleEl) {
+                titleEl.innerHTML = `<i class="fa-solid fa-pen-to-square text-indigo-500"></i> Edit Preset: "${escapeHtml(preset.name)}"`;
+            }
+            if (btnText) btnText.textContent = "Save Changes";
+            if (btnIcon) btnIcon.className = "fa-solid fa-check text-[10px]";
+            if (cancelBtn) cancelBtn.classList.remove('hidden');
+
+            if (nameInput) {
+                nameInput.focus();
+                nameInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function cancelEditCustomPreset () {
+            editingPresetId = null;
+            const nameInput = document.getElementById('newPresetName');
+            const promptInput = document.getElementById('newPresetPrompt');
+            const titleEl = document.getElementById('customPresetFormTitle');
+            const btnText = document.getElementById('btnSavePresetText');
+            const btnIcon = document.getElementById('btnSavePresetIcon');
+            const cancelBtn = document.getElementById('btnCancelEditPreset');
+
+            if (nameInput) nameInput.value = '';
+            if (promptInput) promptInput.value = '';
+
+            if (titleEl) {
+                titleEl.innerHTML = `<i class="fa-solid fa-plus-circle text-indigo-500"></i> Create New Preset`;
+            }
+            if (btnText) btnText.textContent = "Add Preset";
+            if (btnIcon) btnIcon.className = "fa-solid fa-plus text-[10px]";
+            if (cancelBtn) cancelBtn.classList.add('hidden');
+        }
+
+        function deleteCustomPreset (id) {
+            if (editingPresetId === id) {
+                cancelEditCustomPreset();
+            }
+            const preset = customPresets.find(p => p.id === id);
+            const presetName = preset ? preset.name : "Preset";
+            customPresets = customPresets.filter(p => p.id !== id);
+            saveCustomPresets();
+            showToast(`Removed preset "${presetName}"`);
+        }
+
+        function renderPresetCarousel () {
+            const container = document.getElementById('tonePresetsCarousel');
+            if (!container) return;
+
+            const builtInHtml = defaultPresets.map(preset => `
+                <button onclick="triggerAI('${preset.id}')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 ${preset.class} rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
+                    <i class="fa-solid ${preset.icon}"></i> ${escapeHtml(preset.name)}
+                </button>
+            `).join('');
+
+            const customHtml = customPresets.map(preset => `
+                <button onclick="triggerAI('${preset.id}')"
+                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-fuchsia-50 dark:bg-fuchsia-500/10 border border-fuchsia-200 dark:border-fuchsia-500/30 text-fuchsia-600 dark:text-fuchsia-300 hover:bg-fuchsia-600 hover:text-white rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75 group">
+                    <i class="fa-solid fa-sliders text-fuchsia-500 dark:text-fuchsia-400 group-hover:text-white"></i> ${escapeHtml(preset.name)}
+                    <span class="text-[9px] bg-fuchsia-200 dark:bg-fuchsia-900/60 text-fuchsia-800 dark:text-fuchsia-200 group-hover:bg-white/20 group-hover:text-white px-1.5 py-0.5 rounded font-mono uppercase tracking-wider">Custom</span>
+                </button>
+            `).join('');
+
+            container.innerHTML = builtInHtml + customHtml;
+        }
+
+        function renderCustomPresetsList () {
+            const container = document.getElementById('customPresetsContainer');
+            if (!container) return;
+
+            if (customPresets.length === 0) {
+                container.innerHTML = `
+                    <div class="p-3 bg-slate-50/50 dark:bg-slate-900/30 border border-slate-200/50 dark:border-slate-800/40 rounded-xl text-center text-slate-400 text-xs italic">
+                        No custom presets created yet.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = customPresets.map(preset => `
+                <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-between gap-3">
+                    <div class="flex flex-col min-w-0">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHtml(preset.name)}</span>
+                            <span class="text-[9px] bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Custom</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 italic mt-0.5">"${escapeHtml(preset.prompt)}"</p>
+                    </div>
+                    <div class="flex items-center gap-1 flex-shrink-0">
+                        <button onclick="editCustomPreset('${preset.id}')"
+                            class="text-indigo-600/80 hover:text-indigo-600 dark:text-indigo-400/80 dark:hover:text-indigo-300 p-1.5 hover:bg-indigo-500/10 rounded-lg transition"
+                            title="Edit preset">
+                            <i class="fa-solid fa-pen-to-square text-xs"></i>
+                        </button>
+                        <button onclick="deleteCustomPreset('${preset.id}')"
+                            class="text-rose-500/70 hover:text-rose-600 dark:hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition"
+                            title="Delete preset">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // Prompt Tone Generator
         function getPrompt (mode, text) {
+            const customMatch = customPresets.find(p => p.id === mode);
+            if (customMatch) {
+                return `${customMatch.prompt}${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
+            }
+
             switch (mode) {
                 case 'improve':
-                    return `Correct spelling, typos, and improve the general grammar of the following text. Return the revised plain text only, no wrappers, explanations, quotes, or markdown. Text: "${text}"`;
+                    return `Correct spelling, typos, and improve the general grammar of the following text.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'professional':
-                    return `Rewrite the following text to sound highly professional, formal, persuasive, and authoritative. Return only the revised plain text with no comments. Text: "${text}"`;
+                    return `Rewrite the following text to sound highly professional, formal, persuasive, and authoritative.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'casual':
-                    return `Rewrite the following text to sound friendly, relaxed, conversational, and natural. Keep it casual and engaging. Return only the rewritten plain text. Text: "${text}"`;
+                    return `Rewrite the following text to sound friendly, relaxed, conversational, and natural. Keep it casual and engaging.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'summarize':
-                    return `Create a concise summary of the key message in the text. Return only 1 or 2 sentences of simple plain text. Text: "${text}"`;
+                    return `Create a concise summary of the key message in the text. Return only 1 or 2 sentences of simple plain text.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'bullet':
-                    return `Extract the key bullet points from the text. Format them with simple dashes (-). Return only the raw bullet points list. Text: "${text}"`;
+                    return `Extract the key bullet points from the text. Format them with simple dashes (-).${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'expand':
-                    return `Elaborate on the following text by adding rich descriptive details, clarity, and depth while maintaining the exact core message. Return only the expanded plain text. Text: "${text}"`;
+                    return `Elaborate on the following text by adding rich descriptive details, clarity, and depth while maintaining the exact core message.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'sarcastic':
-                    return `Rewrite the following text with sharp, clever sarcasm and dry humor while preserving the original meaning. Keep it smart and fun. Return only the sarcastic version. Text: "${text}"`;
+                    return `Rewrite the following text with sharp, clever sarcasm and dry humor while preserving the original meaning.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 case 'prompt':
-                    return `Reconstruct the input text into a highly optimized, structured prompt tailored for advanced large language models (ChatGPT, Gemini). Return only the finalized prompt as plain text. Text: "${text}"`;
+                    return `Reconstruct the input text into a highly optimized, structured prompt tailored for advanced large language models (ChatGPT, Gemini).${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
                 default:
-                    return `Correct the spelling and improve readability. Return plain text only. Text: "${text}"`;
+                    return `Correct the spelling and improve readability.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
             }
         }
 
@@ -1107,6 +1427,15 @@
             }
         }
 
+        function getPresetDisplayName (toneOrMode) {
+            if (!toneOrMode) return "PRESET";
+            const custom = customPresets.find(p => p.id === toneOrMode || p.name === toneOrMode);
+            if (custom) return custom.name;
+            const builtIn = defaultPresets.find(p => p.id === toneOrMode || p.name === toneOrMode);
+            if (builtIn) return builtIn.name;
+            return toneOrMode;
+        }
+
         function renderHistory () {
             const mode = localStorage.getItem('cs_history_mode') || 'enabled';
             if (mode === 'disabled') return;
@@ -1130,7 +1459,7 @@
             container.innerHTML = history.map(entry => `
             <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-slate-300 dark:hover:border-slate-700/60 transition-all flex flex-col gap-1.5 relative group">
                 <div class="flex justify-between items-center">
-                    <span class="text-[9px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-500/10">${entry.tone}</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-500/10">${escapeHtml(getPresetDisplayName(entry.tone))}</span>
                     <span class="text-[9px] text-slate-400 dark:text-slate-500">${entry.date} ${entry.timestamp}</span>
                 </div>
                 <p class="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-2 italic">"${escapeHtml(entry.input)}"</p>
