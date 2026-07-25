@@ -25,10 +25,8 @@
 
 ## ✨ Features at a Glance
 
-### 🧠 Dual-Engine AI Support
-Choose your preferred AI powerhouse:
-* **Google Gemini AI** (via Gemini API) for advanced logic and premium content generation.
-* **Hugging Face Serverless** (using Llama 3.1) for high-performance serverless text completions.
+### 🧠 Advanced AI Support
+Powered by **Google Gemini AI** (via Gemini API) for high-speed logic, tone adjustment, and premium content generation.
 
 ### 🎭 Tone Presets
 Instant transformations with tailor-made system prompt structures:
@@ -55,30 +53,23 @@ Instant transformations with tailor-made system prompt structures:
 ```mermaid
 graph TD
     A[Input Original Text] --> B[Select Tone Preset]
-    B --> C{API Provider Select}
-    C -->|Google Gemini| D[Secure LocalStorage API Key]
-    C -->|HuggingFace| E[Secure LocalStorage HF Token]
-    D --> F[Direct Client-to-API Request]
-    E --> F
-    F --> G[Generate & Mirror Output]
-    G --> H[Features: Diff, Text-to-Speech, Copy]
-    G --> I[Saved to Revision History]
+    B --> C[Secure LocalStorage Gemini Key]
+    C --> D[Direct Client-to-API Request]
+    D --> E[Generate & Mirror Output]
+    E --> F[Features: Diff, Text-to-Speech, Copy]
+    E --> G[Saved to Revision History]
 ```
 
 ---
 
 ## 🔐 API Key Setup & Security
 
-Verbatim Studio works entirely on the client side. **Your API keys are never sent to external third-party servers**—they are saved directly inside your browser's secure `LocalStorage` and sent only to the official AI providers (Google/HuggingFace).
+Verbatim Studio works entirely on the client side. **Your API keys are never sent to external third-party servers**—they are saved directly inside your browser's secure `LocalStorage` and sent only to the official Google Gemini API.
 
 ### Setup Instructions:
-1. **Google Gemini:**
-   - Obtain a key from the [Google AI Studio API Key Portal](https://aistudio.google.com/app/apikey).
-   - Click the gear icon (**API Settings**) in Verbatim Studio.
-   - Set the Provider to **Google Gemini AI**, paste your key, and save.
-2. **HuggingFace:**
-   - Obtain a token from your [HuggingFace Access Tokens Settings](https://huggingface.co/settings/tokens).
-   - Choose **HuggingFace Serverless** in API Settings, enter the token, and save.
+1. Obtain a key from the [Google AI Studio API Key Portal](https://aistudio.google.com/app/apikey).
+2. Click the gear icon (**API Settings**) in Verbatim Studio.
+3. Paste your Gemini API key and save.
 
 ---
 
@@ -86,7 +77,7 @@ Verbatim Studio works entirely on the client side. **Your API keys are never sen
 
 * **Structure & UI**: HTML5 & [Tailwind CSS](https://tailwindcss.com) (via CDN config)
 * **Fonts & Icons**: Outfit & Inter (Google Fonts), Font Awesome 6
-* **AI Connection**: Native Fetch API (Google Gemini API & HuggingFace Hub API)
+* **AI Connection**: Native Fetch API (Google Gemini API)
 * **Diff Engine**: Text comparison diff highlights (`<ins>` / `<del>`)
 
 ---
