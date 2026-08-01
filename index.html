@@ -164,7 +164,6 @@
                     title="Switch Theme">
                     <i class="fa-solid fa-moon"></i>
                 </button>
-
                 <!-- Quick Incognito Toggle Button (Header) -->
                 <button id="incognitoToggleBtn" onclick="toggleIncognitoQuick()"
                     class="text-slate-500 hover:text-indigo-600 bg-slate-100 border border-slate-200 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-purple-300 dark:bg-slate-800/40 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800 transition p-2.5 rounded-xl flex items-center justify-center"
@@ -175,14 +174,12 @@
                         <line x1="2" y1="2" x2="22" y2="22"></line>
                     </svg>
                 </button>
-
                 <!-- Revision History Drawer Button -->
                 <button id="historyToggleBtn" onclick="toggleHistory()"
                     class="text-slate-500 hover:text-slate-800 bg-slate-100 border border-slate-200 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:bg-slate-800/40 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800 transition p-2.5 rounded-xl"
                     title="Rewrite History">
                     <i class="fa-solid fa-history"></i>
                 </button>
-
                 <!-- Settings Modal Button -->
                 <button onclick="toggleModal()"
                     class="text-slate-500 hover:text-slate-800 bg-slate-100 border border-slate-200 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:bg-slate-800/40 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800 transition p-2.5 rounded-xl"
@@ -195,7 +192,8 @@
         <!-- Action Presets Horizontal Carousel -->
         <section class="w-full">
             <div class="flex justify-between items-center mb-2 px-1">
-                <p class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider flex items-center gap-1.5">
+                <p
+                    class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider flex items-center gap-1.5">
                     <i class="fa-solid fa-sliders text-indigo-500"></i> Action Presets
                 </p>
                 <div class="flex items-center gap-1">
@@ -214,43 +212,13 @@
                     </button>
                 </div>
             </div>
-            <div id="tonePresetsCarousel" class="flex overflow-x-auto gap-2 py-1.5 -mx-1 px-1 scrollbar-none snap-x snap-mandatory cursor-grab select-none">
-                <button onclick="triggerAI('improve')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Correct & Polish
-                </button>
-                <button onclick="triggerAI('professional')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-briefcase"></i> Professional
-                </button>
-                <button onclick="triggerAI('casual')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 text-sky-600 dark:text-sky-300 hover:bg-sky-600 hover:text-white dark:hover:bg-sky-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-comments"></i> Conversational
-                </button>
-                <button onclick="triggerAI('summarize')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20 text-amber-600 dark:text-amber-300 hover:bg-amber-600 hover:text-white dark:hover:bg-amber-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-compress"></i> Summarize
-                </button>
-                <button onclick="triggerAI('bullet')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-300 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-list-ul"></i> Bullet Points
-                </button>
-                <button onclick="triggerAI('expand')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-100 dark:border-cyan-500/20 text-cyan-600 dark:text-cyan-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-expand"></i> Expand
-                </button>
-                <button onclick="triggerAI('sarcastic')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20 text-rose-600 dark:text-rose-300 hover:bg-rose-600 hover:text-white dark:hover:bg-rose-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-mask"></i> Sarcastic
-                </button>
-                <button onclick="triggerAI('prompt')"
-                    class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-orange-50 dark:bg-orange-500/10 border border-orange-100 dark:border-orange-500/20 text-orange-600 dark:text-orange-300 hover:bg-orange-600 hover:text-white dark:hover:bg-orange-650 rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
-                    <i class="fa-solid fa-robot"></i> Prompt Architect
-                </button>
+            <div id="tonePresetsCarousel"
+                class="flex overflow-x-auto gap-2 py-1.5 -mx-1 px-1 scrollbar-none snap-x snap-mandatory cursor-grab select-none">
+                <!-- Rendered dynamically -->
             </div>
         </section>
 
-        <!-- Mobile Sliding Tab Bar (Only visible on small viewports) -->
+        <!-- Mobile Sliding Tab Bar -->
         <div
             class="md:hidden bg-slate-200/80 dark:bg-slate-950/80 p-1 rounded-xl border border-slate-300/60 dark:border-slate-800/60 max-w-[280px] w-full mx-auto relative mb-1">
             <div id="tabIndicator"
@@ -397,7 +365,6 @@
                 </button>
             </div>
         </div>
-
         <!-- Drawer Body -->
         <div class="flex-grow p-4 overflow-y-auto flex flex-col gap-3">
             <!-- Incognito Active Banner -->
@@ -409,7 +376,6 @@
                     <div class="text-[11px] opacity-80">Transformations are currently not recorded in history.</div>
                 </div>
             </div>
-
             <!-- History Disabled Card -->
             <div id="historyDisabledCard"
                 class="hidden p-6 bg-rose-500/5 border border-rose-500/20 rounded-xl flex-col items-center justify-center text-center gap-2 text-rose-600 dark:text-rose-400">
@@ -422,7 +388,6 @@
                     Open Settings
                 </button>
             </div>
-
             <!-- Dynamic History List Container -->
             <div id="historyContainer" class="flex flex-col gap-3">
                 <!-- Rendered dynamically -->
@@ -470,12 +435,11 @@
                         </button>
                     </div>
                     <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1.5 flex items-center gap-1">
-                        <i class="fa-solid fa-circle-info"></i> Key stays saved in local storage. Sent via API
-                        header.
+                        <i class="fa-solid fa-circle-info"></i> Key stays saved in local storage. Sent via API header.
                     </p>
                 </div>
 
-                <!-- Model Selection Container -->
+                <!-- Model Selection Container (Grouped Optgroups) -->
                 <div class="form-control" id="modelSelectionContainer">
                     <label
                         class="block text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-2"
@@ -484,12 +448,21 @@
                         <select
                             class="appearance-none block w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 py-3 px-4 pr-10 rounded-xl leading-tight focus:outline-none focus:border-indigo-500 transition text-sm"
                             id="modelSelect" aria-label="Select Gemini model">
-                            <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite</option>
-                            <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite</option>
-                            <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-                            <option value="gemini-3-flash-preview">gemini-3-flash-preview</option>
-                            <option value="gemini-2.5-pro">gemini-2.5-pro</option>
-                            <option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview</option>
+                            <optgroup label="Flash Lite">
+                                <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash Lite</option>
+                                <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
+                                <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+                            </optgroup>
+                            <optgroup label="Flash">
+                                <option value="gemini-3.6-flash">Gemini 3.6 Flash</option>
+                                <option value="gemini-3.5-flash">Gemini 3.5 Flash</option>
+                                <option value="gemini-3-flash-preview">Gemini 3.0 Flash Preview</option>
+                                <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            </optgroup>
+                            <optgroup label="Pro">
+                                <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+                                <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                            </optgroup>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 dark:text-slate-400">
@@ -584,19 +557,24 @@
                 <!-- Preset Prompts Section -->
                 <div class="flex flex-col gap-4">
                     <div class="flex justify-between items-center">
-                        <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                        <div
+                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
                             <i class="fa-solid fa-sliders"></i> Preset Prompts
                         </div>
                     </div>
-                    <p class="text-[11px] text-slate-400 dark:text-slate-500">Define custom preset prompts that appear in your main action toolbar.</p>
-                    
+                    <p class="text-[11px] text-slate-400 dark:text-slate-500">Define custom preset prompts that appear
+                        in your main action toolbar.</p>
+
                     <!-- Create / Edit Preset Form -->
-                    <div id="customPresetFormCard" class="p-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col gap-3 transition-all">
-                        <span id="customPresetFormTitle" class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <div id="customPresetFormCard"
+                        class="p-3.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex flex-col gap-3 transition-all">
+                        <span id="customPresetFormTitle"
+                            class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                             <i class="fa-solid fa-plus-circle text-indigo-500"></i> Create New Preset
                         </span>
                         <div>
-                            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-semibold mb-1" for="newPresetName">
+                            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-semibold mb-1"
+                                for="newPresetName">
                                 Menu Item Name
                             </label>
                             <input id="newPresetName" type="text"
@@ -604,7 +582,8 @@
                                 placeholder="e.g. Translate to French">
                         </div>
                         <div>
-                            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-semibold mb-1" for="newPresetPrompt">
+                            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-semibold mb-1"
+                                for="newPresetPrompt">
                                 System Prompt Instructions
                             </label>
                             <textarea id="newPresetPrompt" rows="2"
@@ -629,13 +608,71 @@
                         <!-- Dynamically rendered custom preset items -->
                     </div>
                 </div>
+
+                <hr class="border-slate-200 dark:border-slate-800/80">
+
+                <!-- Backup & Restore Settings Section -->
+                <div class="flex flex-col gap-3">
+                    <div
+                        class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-hard-drive"></i> Backup &amp; Restore Settings
+                    </div>
+                    <p class="text-[11px] text-slate-400 dark:text-slate-500">
+                        Export your extension preferences and custom presets to a JSON file, or restore settings from a
+                        backup file.
+                    </p>
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <button type="button" onclick="exportSettings()"
+                            class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 border border-slate-200 dark:border-slate-700">
+                            <i class="fa-solid fa-download text-indigo-500"></i> Export Settings
+                        </button>
+
+                        <button type="button" onclick="triggerImportSettings()"
+                            class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 border border-slate-200 dark:border-slate-700">
+                            <i class="fa-solid fa-upload text-indigo-500"></i> Import Settings
+                        </button>
+                        <input type="file" id="importFileInput" accept=".json" class="hidden"
+                            onchange="importSettings(event)">
+
+                        <button type="button" onclick="toggleResetConfirm(true)"
+                            class="px-3 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 border border-rose-500/20">
+                            <i class="fa-solid fa-rotate-left"></i> Reset to Defaults
+                        </button>
+                    </div>
+
+                    <!-- Reset Confirmation Banner -->
+                    <div id="resetConfirmBox"
+                        class="hidden p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex flex-col gap-2">
+                        <p class="text-xs font-semibold text-rose-600 dark:text-rose-400">
+                            ⚠️ Are you sure you want to reset all settings, custom presets, and API key to factory
+                            defaults?
+                        </p>
+                        <label class="flex items-center gap-2 cursor-pointer my-1">
+                            <input type="checkbox" id="resetClearHistoryCheckbox"
+                                class="rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-xs text-slate-700 dark:text-slate-300">Also clear revision history
+                                logs</span>
+                        </label>
+                        <div class="flex items-center gap-2 mt-1">
+                            <button type="button" onclick="executeResetToDefaults()"
+                                class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg transition shadow-sm">
+                                Yes, Reset Everything
+                            </button>
+                            <button type="button" onclick="toggleResetConfirm(false)"
+                                class="px-3 py-1.5 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-lg transition">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <!-- Modal Footer -->
             <div
                 class="px-6 py-4 bg-slate-50 dark:bg-slate-950/40 border-t border-slate-200 dark:border-slate-800/80 flex justify-end">
-                <button onclick="saveSettings()"
-                    class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-semibold text-xs transition active:scale-95 shadow-md shadow-indigo-600/20">
-                    Apply & Close
+                <button id="btnApplySettings" onclick="saveSettings()"
+                    class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-semibold text-xs transition active:scale-95 shadow-md shadow-indigo-600/20 flex items-center gap-1.5">
+                    Apply &amp; Close
                 </button>
             </div>
         </div>
@@ -652,20 +689,21 @@
     <script>
         // Imminent theme initialization to prevent flashes
         initTheme();
+
         function initTheme () {
             const savedTheme = localStorage.getItem('cs_theme');
             if (savedTheme) {
                 setTheme(savedTheme);
             } else {
-                // Auto system theme
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 setTheme(prefersDark ? 'dark' : 'light');
             }
         }
+
         function setTheme (theme) {
             const html = document.documentElement;
             const themeToggleBtn = document.getElementById('themeToggleBtn');
-            if (!themeToggleBtn) return; // Wait for load if called early
+            if (!themeToggleBtn) return;
             const themeIcon = themeToggleBtn.querySelector('i');
             if (theme === 'dark') {
                 html.classList.add('dark');
@@ -679,6 +717,7 @@
                 localStorage.setItem('cs_theme', 'light');
             }
         }
+
         function toggleTheme () {
             const isDark = document.documentElement.classList.contains('dark');
             setTheme(isDark ? 'light' : 'dark');
@@ -699,7 +738,6 @@
         const modelSelect = document.getElementById('modelSelect');
         const testBtn = document.getElementById('testBtn');
         const testStatus = document.getElementById('testStatus');
-
         const historyModeSelect = document.getElementById('historyModeSelect');
         const historyRetentionSelect = document.getElementById('historyRetentionSelect');
         const customRetentionSection = document.getElementById('customRetentionSection');
@@ -718,7 +756,6 @@
         let utterance = null;
 
         window.onload = function () {
-            // Apply correct button theme icons state
             initTheme();
             loadSettings();
             loadHistory();
@@ -782,7 +819,6 @@
                 output.innerHTML = '<span class="text-slate-400 dark:text-slate-500 italic">Result will appear here...</span>';
                 return;
             }
-
             if (showDiff && rawInputText) {
                 output.innerHTML = diffWords(rawInputText, rawOutputText);
             } else {
@@ -805,7 +841,6 @@
                 outputCard.classList.add('hidden');
                 outputCard.classList.remove('flex');
                 tabIndicator.style.transform = 'translateX(0)';
-
                 tabBtnInput.classList.remove('text-slate-500', 'dark:text-slate-400');
                 tabBtnInput.classList.add('text-white');
                 tabBtnOutput.classList.remove('text-white');
@@ -816,7 +851,6 @@
                 inputCard.classList.add('hidden');
                 inputCard.classList.remove('flex');
                 tabIndicator.style.transform = 'translateX(100%)';
-
                 tabBtnOutput.classList.remove('text-slate-500', 'dark:text-slate-400');
                 tabBtnOutput.classList.add('text-white');
                 tabBtnInput.classList.remove('text-white');
@@ -831,14 +865,11 @@
                 showToast("Please write or paste some text first!", true);
                 return;
             }
-
             loadingOverlay.classList.remove('hidden');
             loadingOverlay.classList.add('flex');
             setTimeout(() => loadingOverlay.classList.remove('opacity-0'), 10);
-
             isAiMode = true;
 
-            // Auto switch tab to output on mobile to see response
             if (window.innerWidth < 768) {
                 switchTab('output');
             }
@@ -853,7 +884,6 @@
                 modeBadge.textContent = `Preset: ${displayModeName}`;
                 renderOutput();
 
-                // Save to historical log with friendly preset display name
                 saveHistoryEntry(displayModeName, text, resultText);
             } catch (error) {
                 console.error(error);
@@ -872,16 +902,18 @@
         async function callGemini (mode, text) {
             const apiKey = localStorage.getItem('cs_gemini_key');
             if (!apiKey) throw new Error("Missing Gemini API Key. Go to Settings.");
-
             const prompt = getPrompt(mode, text);
-            const selectedModel = localStorage.getItem('cs_gemini_model') || 'gemini-3.1-flash-lite';
+            const selectedModel = localStorage.getItem('cs_gemini_model') || 'gemini-3.5-flash-lite';
             const defaultModels = [
+                "gemini-3.5-flash-lite",
                 "gemini-3.1-flash-lite",
                 "gemini-2.5-flash-lite",
-                "gemini-2.5-flash",
+                "gemini-3.6-flash",
+                "gemini-3.5-flash",
                 "gemini-3-flash-preview",
-                "gemini-2.5-pro",
-                "gemini-3.1-pro-preview"
+                "gemini-2.5-flash",
+                "gemini-3.1-pro-preview",
+                "gemini-2.5-pro"
             ];
             const models = [ selectedModel, ...defaultModels.filter(m => m !== selectedModel) ];
 
@@ -893,6 +925,7 @@
 
             async function tryModel (model) {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
                 for (let attempt = 1; attempt <= 2; attempt++) {
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 20000);
@@ -907,6 +940,7 @@
                             body: JSON.stringify(payload),
                             signal: controller.signal
                         });
+
                         clearTimeout(timeoutId);
 
                         if (!response.ok) {
@@ -925,7 +959,6 @@
                         const resultText = data?.candidates?.[ 0 ]?.content?.parts?.[ 0 ]?.text;
                         if (!resultText) throw new Error("Empty response payload");
                         return resultText;
-
                     } catch (err) {
                         clearTimeout(timeoutId);
                         const isLastAttempt = attempt === 2;
@@ -949,7 +982,6 @@
             }
             throw lastError || new Error("All Gemini models failed after retries");
         }
-
 
         // Built-in Presets Definition
         const defaultPresets = [
@@ -980,6 +1012,30 @@
             renderPresetCarousel();
             renderCustomPresetsList();
             setupCarouselScroll();
+            setupPresetFormKeyboardShortcuts();
+        }
+
+        function setupPresetFormKeyboardShortcuts () {
+            const promptInput = document.getElementById('newPresetPrompt');
+            const nameInput = document.getElementById('newPresetName');
+            if (promptInput && !promptInput.dataset.shortcutBound) {
+                promptInput.dataset.shortcutBound = "true";
+                promptInput.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                        e.preventDefault();
+                        addOrUpdateCustomPreset();
+                    }
+                });
+            }
+            if (nameInput && !nameInput.dataset.shortcutBound) {
+                nameInput.dataset.shortcutBound = "true";
+                nameInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (promptInput) promptInput.focus();
+                    }
+                });
+            }
         }
 
         function scrollPresetCarousel (offset) {
@@ -1004,37 +1060,67 @@
             let isDown = false;
             let startX;
             let scrollLeft;
+            let hasDragged = false;
 
             carousel.addEventListener('mousedown', (e) => {
                 isDown = true;
+                hasDragged = false;
                 carousel.classList.add('cursor-grabbing');
                 startX = e.pageX - carousel.offsetLeft;
                 scrollLeft = carousel.scrollLeft;
             });
-
             carousel.addEventListener('mouseleave', () => {
                 isDown = false;
                 carousel.classList.remove('cursor-grabbing');
             });
-
             carousel.addEventListener('mouseup', () => {
                 isDown = false;
                 carousel.classList.remove('cursor-grabbing');
             });
-
             carousel.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
-                e.preventDefault();
                 const x = e.pageX - carousel.offsetLeft;
                 const walk = (x - startX) * 1.5;
+                if (Math.abs(walk) > 4) {
+                    hasDragged = true;
+                }
+                e.preventDefault();
                 carousel.scrollLeft = scrollLeft - walk;
             });
+            carousel.addEventListener('click', (e) => {
+                if (hasDragged) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    hasDragged = false;
+                }
+            }, true);
         }
 
         function saveCustomPresets () {
             localStorage.setItem('cs_custom_presets', JSON.stringify(customPresets));
             renderPresetCarousel();
             renderCustomPresetsList();
+        }
+
+        // Move Custom Preset Up/Down Reordering
+        function movePresetUp (id) {
+            const index = customPresets.findIndex(p => p.id === id);
+            if (index > 0) {
+                const temp = customPresets[ index ];
+                customPresets[ index ] = customPresets[ index - 1 ];
+                customPresets[ index - 1 ] = temp;
+                saveCustomPresets();
+            }
+        }
+
+        function movePresetDown (id) {
+            const index = customPresets.findIndex(p => p.id === id);
+            if (index !== -1 && index < customPresets.length - 1) {
+                const temp = customPresets[ index ];
+                customPresets[ index ] = customPresets[ index + 1 ];
+                customPresets[ index + 1 ] = temp;
+                saveCustomPresets();
+            }
         }
 
         let editingPresetId = null;
@@ -1094,7 +1180,6 @@
 
             if (nameInput) nameInput.value = preset.name;
             if (promptInput) promptInput.value = preset.prompt;
-
             if (titleEl) {
                 titleEl.innerHTML = `<i class="fa-solid fa-pen-to-square text-indigo-500"></i> Edit Preset: "${escapeHtml(preset.name)}"`;
             }
@@ -1119,7 +1204,6 @@
 
             if (nameInput) nameInput.value = '';
             if (promptInput) promptInput.value = '';
-
             if (titleEl) {
                 titleEl.innerHTML = `<i class="fa-solid fa-plus-circle text-indigo-500"></i> Create New Preset`;
             }
@@ -1144,14 +1228,14 @@
             if (!container) return;
 
             const builtInHtml = defaultPresets.map(preset => `
-                <button onclick="triggerAI('${preset.id}')"
+                <button onclick="triggerAI('${preset.id}')" title="${escapeHtml(preset.name)}: Built-in transformation"
                     class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 ${preset.class} rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75">
                     <i class="fa-solid ${preset.icon}"></i> ${escapeHtml(preset.name)}
                 </button>
             `).join('');
 
             const customHtml = customPresets.map(preset => `
-                <button onclick="triggerAI('${preset.id}')"
+                <button onclick="triggerAI('${preset.id}')" title="Custom Preset: ${escapeHtml(preset.prompt)}"
                     class="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-fuchsia-50 dark:bg-fuchsia-500/10 border border-fuchsia-200 dark:border-fuchsia-500/30 text-fuchsia-600 dark:text-fuchsia-300 hover:bg-fuchsia-600 hover:text-white rounded-xl transition text-xs font-semibold shadow-sm active:scale-95 duration-75 group">
                     <i class="fa-solid fa-sliders text-fuchsia-500 dark:text-fuchsia-400 group-hover:text-white"></i> ${escapeHtml(preset.name)}
                     <span class="text-[9px] bg-fuchsia-200 dark:bg-fuchsia-900/60 text-fuchsia-800 dark:text-fuchsia-200 group-hover:bg-white/20 group-hover:text-white px-1.5 py-0.5 rounded font-mono uppercase tracking-wider">Custom</span>
@@ -1174,14 +1258,24 @@
                 return;
             }
 
-            container.innerHTML = customPresets.map(preset => `
+            container.innerHTML = customPresets.map((preset, index) => `
                 <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-between gap-3">
-                    <div class="flex flex-col min-w-0">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHtml(preset.name)}</span>
-                            <span class="text-[9px] bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Custom</span>
+                    <div class="flex items-center gap-2 min-w-0">
+                        <div class="flex flex-col gap-0.5 flex-shrink-0">
+                            <button onclick="movePresetUp('${preset.id}')" ${index === 0 ? 'disabled class="opacity-30 cursor-not-allowed"' : 'class="hover:text-indigo-500 transition"'} title="Move Up">
+                                <i class="fa-solid fa-chevron-up text-[9px]"></i>
+                            </button>
+                            <button onclick="movePresetDown('${preset.id}')" ${index === customPresets.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed"' : 'class="hover:text-indigo-500 transition"'} title="Move Down">
+                                <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                            </button>
                         </div>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 italic mt-0.5">"${escapeHtml(preset.prompt)}"</p>
+                        <div class="flex flex-col min-w-0">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHtml(preset.name)}</span>
+                                <span class="text-[9px] bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Custom</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 italic mt-0.5">"${escapeHtml(preset.prompt)}"</p>
+                        </div>
                     </div>
                     <div class="flex items-center gap-1 flex-shrink-0">
                         <button onclick="editCustomPreset('${preset.id}')"
@@ -1205,7 +1299,6 @@
             if (customMatch) {
                 return `${customMatch.prompt}${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
             }
-
             switch (mode) {
                 case 'improve':
                     return `Correct spelling, typos, and improve the general grammar of the following text.${STRICT_FORMATTING_SUFFIX}\n\nText: "${text}"`;
@@ -1236,6 +1329,7 @@
             }
             const speakBtn = document.getElementById('speakBtn');
             const speakIcon = speakBtn.querySelector('i');
+
             if (synth.speaking) {
                 synth.cancel();
                 speakIcon.className = "fa-solid fa-volume-high text-xs";
@@ -1256,7 +1350,6 @@
                     speakIcon.className = "fa-solid fa-volume-high text-xs";
                     speakBtn.classList.remove('text-indigo-650', 'dark:text-indigo-400');
                 };
-
                 speakIcon.className = "fa-solid fa-circle-stop animate-pulse text-xs text-indigo-600 dark:text-indigo-400";
                 speakBtn.classList.add('text-indigo-600', 'dark:text-indigo-400');
                 synth.speak(utterance);
@@ -1265,8 +1358,6 @@
         }
 
         // --- History Privacy & Retention Engine ---
-
-        // Calculate retention cutoff timestamp (ms)
         function getRetentionCutoff () {
             const retention = localStorage.getItem('cs_history_retention') || 'never';
             const customDays = parseFloat(localStorage.getItem('cs_custom_retention_days')) || 0;
@@ -1280,19 +1371,16 @@
                 case '1month': days = 30; break;
                 case 'custom': days = customDays; break;
             }
-
             if (days <= 0) return null;
             return Date.now() - (days * 24 * 60 * 60 * 1000);
         }
 
-        // Filter expired entries from history
         function pruneExpiredHistory (historyList) {
             const cutoff = getRetentionCutoff();
             if (!cutoff) return historyList;
             return historyList.filter(entry => entry.id >= cutoff);
         }
 
-        // History Data Management via LocalStorage
         function loadHistory () {
             const saved = localStorage.getItem('cs_history');
             if (saved) {
@@ -1305,18 +1393,15 @@
                 history = [];
             }
 
-            // Prune expired entries
             const pruned = pruneExpiredHistory(history);
             if (pruned.length !== history.length) {
                 history = pruned;
                 localStorage.setItem('cs_history', JSON.stringify(history));
             }
-
             updateHistoryModeUI();
             renderHistory();
         }
 
-        // Helper String Escapers for Dynamic HTML Generation
         function escapeHtml (text) {
             if (!text) return "";
             return text
@@ -1340,9 +1425,8 @@
         function saveHistoryEntry (tone, inputVal, outputVal) {
             const historyMode = localStorage.getItem('cs_history_mode') || 'enabled';
             if (historyMode === 'incognito' || historyMode === 'disabled') {
-                return; // Incognito or Disabled mode active: skip saving entry
+                return;
             }
-
             const entry = {
                 id: Date.now(),
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -1351,13 +1435,10 @@
                 input: inputVal,
                 output: outputVal
             };
-
             history.unshift(entry);
             if (history.length > 25) history.pop();
 
-            // Prune expired entries before saving
             history = pruneExpiredHistory(history);
-
             localStorage.setItem('cs_history', JSON.stringify(history));
             renderHistory();
         }
@@ -1373,7 +1454,6 @@
             const historyContainer = document.getElementById('historyContainer');
             const btnClearAll = document.getElementById('btnClearAllHistory');
 
-            // Update Quick Incognito Header Button
             if (incognitoToggleBtn) {
                 if (isDisabled) {
                     incognitoToggleBtn.classList.add('hidden');
@@ -1391,7 +1471,6 @@
                 }
             }
 
-            // Update History Drawer Banners & Display
             if (incognitoBanner) {
                 incognitoBanner.classList.toggle('hidden', !isIncognito);
             }
@@ -1406,7 +1485,6 @@
                 btnClearAll.classList.toggle('hidden', isDisabled);
             }
 
-            // Sync Settings Dropdown
             if (historyModeSelect) {
                 historyModeSelect.value = mode;
             }
@@ -1416,10 +1494,8 @@
             const currentMode = localStorage.getItem('cs_history_mode') || 'enabled';
             const newMode = currentMode === 'incognito' ? 'enabled' : 'incognito';
             localStorage.setItem('cs_history_mode', newMode);
-
             updateHistoryModeUI();
             renderHistory();
-
             if (newMode === 'incognito') {
                 showToast("Incognito Mode ON: History logging paused");
             } else {
@@ -1439,44 +1515,45 @@
         function renderHistory () {
             const mode = localStorage.getItem('cs_history_mode') || 'enabled';
             if (mode === 'disabled') return;
-
             const container = document.getElementById('historyContainer');
             if (!container) return;
 
-            // Apply retention pruning dynamically on view
             history = pruneExpiredHistory(history);
 
             if (history.length === 0) {
                 container.innerHTML = `
-            <div class="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-600">
-                <i class="fa-solid fa-clock-rotate-left text-4xl mb-3 opacity-30 animate-pulse"></i>
-                <p class="text-xs">No previous logs saved yet</p>
-            </div>
-            `;
+                    <div class="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-600">
+                        <i class="fa-solid fa-clock-rotate-left text-4xl mb-3 opacity-30 animate-pulse"></i>
+                        <p class="text-xs">No previous logs saved yet</p>
+                    </div>
+                `;
                 return;
             }
 
             container.innerHTML = history.map(entry => `
-            <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-slate-300 dark:hover:border-slate-700/60 transition-all flex flex-col gap-1.5 relative group">
-                <div class="flex justify-between items-center">
-                    <span class="text-[9px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-500/10">${escapeHtml(getPresetDisplayName(entry.tone))}</span>
-                    <span class="text-[9px] text-slate-400 dark:text-slate-500">${entry.date} ${entry.timestamp}</span>
-                </div>
-                <p class="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-2 italic">"${escapeHtml(entry.input)}"</p>
-                <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200 dark:border-slate-800/40">
-                    <button onclick="restoreHistory(${entry.id})" class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:text-indigo-850 dark:hover:text-indigo-300 font-semibold flex items-center gap-1.5">
-                        <i class="fa-solid fa-arrow-rotate-left"></i> Restore
-                    </button>
-                    <div class="flex gap-2">
-                        <button onclick="copyText('${escapeJsString(entry.output)}')" class="text-[10px] text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition">
-                            <i class="fa-regular fa-copy"></i>
+                <div class="p-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-slate-300 dark:hover:border-slate-700/60 transition-all flex flex-col gap-1.5 relative group">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-500/10">${escapeHtml(getPresetDisplayName(entry.tone))}</span>
+                        <span class="text-[9px] text-slate-400 dark:text-slate-500">${entry.date} ${entry.timestamp}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-2 italic">"${escapeHtml(entry.input)}"</p>
+                    <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200 dark:border-slate-800/40">
+                        <button onclick="restoreHistory(${entry.id})" class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:text-indigo-850 dark:hover:text-indigo-300 font-semibold flex items-center gap-1.5">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Restore
                         </button>
-                        <button onclick="deleteHistory(${entry.id})" class="text-[10px] text-rose-600/50 dark:text-rose-500/55 hover:text-rose-400 transition">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
+                        <div class="flex gap-1.5 items-center">
+                            <button onclick="copyText('${escapeJsString(entry.input)}', 'Original')" class="text-[10px] bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded font-semibold hover:bg-slate-300 dark:hover:bg-slate-700 transition">
+                                <i class="fa-regular fa-copy"></i> Original
+                            </button>
+                            <button onclick="copyText('${escapeJsString(entry.output)}', 'Enhanced')" class="text-[10px] bg-indigo-600 text-white px-2 py-0.5 rounded font-semibold hover:bg-indigo-500 transition">
+                                <i class="fa-regular fa-copy"></i> Enhanced
+                            </button>
+                            <button onclick="deleteHistory(${entry.id})" class="text-[10px] text-rose-600/50 dark:text-rose-500/55 hover:text-rose-400 transition ml-1" title="Delete log">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
             `).join('');
         }
 
@@ -1523,14 +1600,13 @@
         // Settings Dialog Management
         function loadSettings () {
             const geminiKey = localStorage.getItem('cs_gemini_key') || '';
-            const geminiModel = localStorage.getItem('cs_gemini_model') || 'gemini-3.1-flash-lite';
+            const geminiModel = localStorage.getItem('cs_gemini_model') || 'gemini-3.5-flash-lite';
             const historyMode = localStorage.getItem('cs_history_mode') || 'enabled';
             const historyRetention = localStorage.getItem('cs_history_retention') || 'never';
             const customDays = localStorage.getItem('cs_custom_retention_days') || '';
 
             apiKeyInput.value = geminiKey;
             modelSelect.value = geminiModel;
-
             historyModeSelect.value = historyMode;
             historyRetentionSelect.value = historyRetention;
             customRetentionInput.value = customDays;
@@ -1541,8 +1617,11 @@
         }
 
         function saveSettings () {
+            const btnApply = document.getElementById('btnApplySettings');
+            const originalHtml = btnApply.innerHTML;
+
             const geminiKey = apiKeyInput.value.trim();
-            const geminiModel = modelSelect.value || 'gemini-3.1-flash-lite';
+            const geminiModel = modelSelect.value || 'gemini-3.5-flash-lite';
             const historyMode = historyModeSelect.value;
             const historyRetention = historyRetentionSelect.value;
             const customDays = customRetentionInput.value.trim();
@@ -1552,25 +1631,127 @@
                 if (!customDays || isNaN(parsedDays) || parsedDays <= 0) {
                     customRetentionInput.classList.add('border-red-500', 'focus:border-red-500', 'ring-1', 'ring-red-500');
                     customRetentionInput.focus();
-                    showToast("Custom retention duration is required (must be > 0 days)");
+                    showToast("Custom retention duration is required (must be > 0 days)", true);
                     return;
                 }
             }
-            customRetentionInput.classList.remove('border-red-500', 'focus:border-red-500', 'ring-1', 'ring-red-500');
 
+            customRetentionInput.classList.remove('border-red-500', 'focus:border-red-500', 'ring-1', 'ring-red-500');
             localStorage.setItem('cs_gemini_key', geminiKey);
             localStorage.setItem('cs_gemini_model', geminiModel);
-
             localStorage.setItem('cs_history_mode', historyMode);
             localStorage.setItem('cs_history_retention', historyRetention);
             localStorage.setItem('cs_custom_retention_days', customDays);
+
+            btnApply.disabled = true;
+            btnApply.innerHTML = `<i class="fa-solid fa-check"></i> Settings Applied!`;
+            btnApply.classList.replace('bg-indigo-600', 'bg-emerald-600');
 
             updateProviderLabel();
             updateHistoryModeUI();
             renderHistory();
 
-            toggleModal();
-            showToast("Settings applied!");
+            showToast("Settings applied successfully!");
+
+            setTimeout(() => {
+                btnApply.disabled = false;
+                btnApply.innerHTML = originalHtml;
+                btnApply.classList.replace('bg-emerald-600', 'bg-indigo-600');
+                toggleModal();
+            }, 600);
+        }
+
+        // --- Backup & Restore Helper Functions ---
+        function exportSettings () {
+            const data = {
+                exportDate: new Date().toISOString(),
+                theme: localStorage.getItem('cs_theme') || 'dark',
+                geminiModel: localStorage.getItem('cs_gemini_model') || 'gemini-3.5-flash-lite',
+                historyMode: localStorage.getItem('cs_history_mode') || 'enabled',
+                historyRetention: localStorage.getItem('cs_history_retention') || 'never',
+                customRetentionDays: localStorage.getItem('cs_custom_retention_days') || '',
+                customPresets: customPresets
+            };
+
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([ jsonStr ], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `verbatim-settings-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Exported settings JSON (API key excluded)");
+        }
+
+        function triggerImportSettings () {
+            document.getElementById('importFileInput').click();
+        }
+
+        function importSettings (event) {
+            const file = event.target.files[ 0 ];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const settings = JSON.parse(e.target.result);
+                    if (settings.theme) localStorage.setItem('cs_theme', settings.theme);
+                    if (settings.geminiModel) localStorage.setItem('cs_gemini_model', settings.geminiModel);
+                    if (settings.historyMode) localStorage.setItem('cs_history_mode', settings.historyMode);
+                    if (settings.historyRetention) localStorage.setItem('cs_history_retention', settings.historyRetention);
+                    if (settings.customRetentionDays !== undefined) localStorage.setItem('cs_custom_retention_days', settings.customRetentionDays);
+
+                    if (Array.isArray(settings.customPresets)) {
+                        customPresets = settings.customPresets.filter(p => p && typeof p.name === 'string' && typeof p.prompt === 'string').map(p => ({
+                            id: p.id || ('custom_' + Date.now() + Math.random().toString(36).substring(2, 5)),
+                            name: p.name.trim(),
+                            prompt: p.prompt.trim(),
+                            isCustom: true
+                        }));
+                        saveCustomPresets();
+                    }
+
+                    initTheme();
+                    loadSettings();
+                    showToast("Imported settings successfully!");
+                } catch (err) {
+                    showToast(`Failed to import file: ${err.message}`, true);
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function toggleResetConfirm (show) {
+            const box = document.getElementById('resetConfirmBox');
+            if (box) {
+                box.classList.toggle('hidden', !show);
+            }
+        }
+
+        function executeResetToDefaults () {
+            const clearLogs = document.getElementById('resetClearHistoryCheckbox')?.checked;
+
+            localStorage.removeItem('cs_gemini_key');
+            localStorage.setItem('cs_gemini_model', 'gemini-3.5-flash-lite');
+            localStorage.setItem('cs_history_mode', 'enabled');
+            localStorage.setItem('cs_history_retention', 'never');
+            localStorage.setItem('cs_custom_retention_days', '');
+            customPresets = [];
+            saveCustomPresets();
+
+            if (clearLogs) {
+                history = [];
+                localStorage.removeItem('cs_history');
+            }
+
+            toggleResetConfirm(false);
+            loadSettings();
+            renderHistory();
+            showToast("Reset all settings to factory defaults!");
         }
 
         historyRetentionSelect.addEventListener('change', (e) => {
@@ -1597,10 +1778,9 @@
         function updateProviderLabel () {
             const hasKey = !!localStorage.getItem('cs_gemini_key');
             const dotColor = hasKey ? 'bg-green-500' : 'bg-red-500';
-
             currentProviderLabel.innerHTML = `
-        <span class="w-1.5 h-1.5 ${dotColor} rounded-full"></span> Running: Google Gemini
-        `;
+                <span class="w-1.5 h-1.5 ${dotColor} rounded-full"></span> Running: Google Gemini
+            `;
         }
 
         function toggleModal () {
@@ -1613,7 +1793,6 @@
             }
         }
 
-        // Setup eye visual toggles for private keys
         function setupVisibilityToggle (inputId, buttonId) {
             const field = document.getElementById(inputId);
             const button = document.getElementById(buttonId);
@@ -1624,6 +1803,7 @@
                 icon.className = isPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
             });
         }
+
         setupVisibilityToggle('apiKeyInput', 'toggleGeminiKey');
 
         testBtn.addEventListener('click', async () => {
@@ -1634,8 +1814,7 @@
                 testStatus.textContent = '❌ Missing API Key';
                 return;
             }
-
-            const selectedModel = modelSelect.value || 'gemini-3.1-flash-lite';
+            const selectedModel = modelSelect.value || 'gemini-3.5-flash-lite';
             testStatus.style.display = 'inline-block';
             testStatus.className = 'text-slate-500 font-medium text-xs animate-pulse';
             testStatus.textContent = 'Testing connection...';
@@ -1708,9 +1887,10 @@
             });
         }
 
-        function copyText (str) {
+        function copyText (str, label = "") {
+            const msg = label ? `Copied ${label.toLowerCase()} text!` : "Copied to clipboard!";
             navigator.clipboard.writeText(str).then(() => {
-                showToast("Copied to clipboard!");
+                showToast(msg);
             }).catch(() => {
                 const tempArea = document.createElement('textarea');
                 tempArea.value = str;
@@ -1718,15 +1898,18 @@
                 tempArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempArea);
-                showToast("Copied!");
+                showToast(msg);
             });
         }
 
+        let toastTimer = null;
         function showToast (msg, isError = false) {
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMsg');
             const toastIcon = document.getElementById('toastIcon');
             if (!toast || !toastMsg || !toastIcon) return;
+
+            if (toastTimer) clearTimeout(toastTimer);
 
             toastMsg.textContent = msg;
             toastIcon.className = isError
@@ -1734,7 +1917,7 @@
                 : "fa-solid fa-circle-check text-green-600 dark:text-green-400 text-sm";
 
             toast.classList.remove('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
+            toastTimer = setTimeout(() => {
                 toast.classList.add('opacity-0', 'pointer-events-none');
             }, 2500);
         }
